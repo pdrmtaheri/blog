@@ -1,4 +1,77 @@
-baseURL: https://blog-ece.pages.dev/
+baseURL: https://pedram.blog/
 languageCode: en-us
-title: My New Hugo Site
-theme: ["PaperMod"]
+title: Pedram's Blog
+theme: PaperMod
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+params:
+  env: production
+  title: Pedram's Blog
+  description: "Thoughts on Building With Software"
+  keywords:
+    [
+      Blog,
+      Software,
+      Software Development,
+      Software Engineering,
+      Technical Leadership,
+      Engineering Management,
+    ]
+  author: Pedram Taheri
+  DateFormat: "January 2, 2006"
+  defaultTheme: auto
+  disableThemeToggle: false
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowRssButtonInSectionTermList: true
+  UseHugoToc: true
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  comments: true
+  hidemeta: false
+  hideSummary: false
+  showtoc: true
+  tocopen: true
+
+  homeInfoParams:
+    Title: "Welcome"
+    Content: Have a seat.
+
+  socialIcons:
+    - name: x
+      url: "https://x.com/pdrmtaheri"
+    - name: github
+      url: "https://github.com/pdrmtaheri"
+
+  editPost:
+    URL: https://github.com/pdrmtaheri/blog/blob/main/content
+    Text: "Suggest Changes"
+    appendFilePath: true
+
+menu:
+  main:
+    - identifier: tags
+      name: tags
+      url: /tags/
+
+pygmentsUseClasses: true
+markup:
+  highlight:
+    codeFences: true
+    guessSyntax: true
+    lineNos: true
+    noClasses: false
+    style: monokai
+
+services:
+  googleAnalytics:
+    id: G-BNX2YYWHV5
+  disqus:
+    shortname: pedramtaheri
