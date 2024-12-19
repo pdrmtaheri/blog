@@ -60,8 +60,11 @@ params:
 menu:
   main:
     - identifier: tags
-      name: tags
+      name: Tags
       url: /tags/
+    - identifier: search
+      name: Search
+      url: search/
 
 pygmentsUseClasses: true
 markup:
@@ -75,3 +78,9 @@ markup:
 services:
   googleAnalytics:
     id: G-BNX2YYWHV5
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # necessary for search
