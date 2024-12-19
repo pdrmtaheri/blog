@@ -49,6 +49,8 @@ params:
       url: "https://x.com/pdrmtaheri"
     - name: github
       url: "https://github.com/pdrmtaheri"
+    - name: linkedin
+      url: "https://linkedin.com/in/pdrmtaheri"
 
   editPost:
     URL: https://github.com/pdrmtaheri/blog/blob/main/content
@@ -73,5 +75,3 @@ markup:
 services:
   googleAnalytics:
     id: G-BNX2YYWHV5
-  disqus:
-    shortname: pedramtaheri
