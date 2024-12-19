@@ -39,10 +39,24 @@ params:
   hideSummary: false
   showtoc: true
   tocopen: true
+  customCSS: ["css/custom.css"]
 
   homeInfoParams:
     Title: "Welcome"
     Content: Have a seat.
+
+  profileMode:
+    enabled: true
+    subtitle: "Thoughts on Building with Software"
+    imageUrl: me.jpg
+    imageTitle: A picture of me in my 25th birthday.
+    imageWidth: 120
+    imageHeight: 120
+    buttons:
+      - name: About
+        url: "/about"
+      - name: Posts
+        url: "/posts"
 
   socialIcons:
     - name: x
@@ -59,6 +73,9 @@ params:
 
 menu:
   main:
+    - identifier: about
+      name: About
+      url: /about/
     - identifier: tags
       name: Tags
       url: /tags/

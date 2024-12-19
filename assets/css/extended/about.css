@@ -1,0 +1,51 @@
+/* Profile Page Styling */
+.profile-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.profile-avatar img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+}
+
+.profile-info h1 {
+    font-size: 2.5rem;
+    margin: 15px 0;
+    color: var(--text-color);
+}
+
+.profile-info .summary {
+    font-size: 1.2rem;
+    color: var(--text-secondary-color);
+}
+
+.profile-content {
+    text-align: left;
+    line-height: 1.8;
+}
+
+.profile-content h2 {
+    margin-top: 20px;
+    color: var(--text-color);
+}
+
+.profile-content a {
+    color: var(--brand-color);
+    text-decoration: none;
+}
+
+.profile-content a:hover {
+    text-decoration: underline;
+}
