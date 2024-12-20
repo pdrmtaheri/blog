@@ -48,7 +48,7 @@ params:
   profileMode:
     enabled: true
     subtitle: "Thoughts on Building with Software"
-    imageUrl: me.jpg
+    imageUrl: me.webp
     imageTitle: A picture of me in my 25th birthday.
     imageWidth: 120
     imageHeight: 120
