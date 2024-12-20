@@ -71,6 +71,15 @@ params:
     Text: "Suggest Changes"
     appendFilePath: true
 
+minify:
+  minifyOutput: true
+  disableHTML: false
+  disableCSS: false
+  disableJS: false
+  disableJSON: false
+  disableSVG: false
+  disableXML: false
+
 menu:
   main:
     - identifier: about
