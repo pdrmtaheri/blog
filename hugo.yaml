@@ -110,3 +110,16 @@ outputs:
     - HTML
     - RSS
     - JSON # necessary for search
+    - headers # for _headers for CF pages
+
+mediaTypes:
+  text/netlify:
+    delimiter: ''
+    suffixes: ['']
+
+outputFormats:
+  headers:
+    mediaType: text/netlify
+    baseName: _headers
+    isPlainText: true
+    notAlternative: true
