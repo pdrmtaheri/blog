@@ -13,6 +13,7 @@
     object-src 'none';
     base-uri 'self';
     frame-ancestors 'none';
+
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
 
