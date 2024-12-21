@@ -4,6 +4,10 @@ draft: false
 title: "My First Post"
 tags: ["test", "blog", "hugo"]
 categories: ["General"]
+cover:
+  image: image.webp
+  alt: I'm not here.
+  relative: true
 ---
 
 # Welcome to My Blog
