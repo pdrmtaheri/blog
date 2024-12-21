@@ -59,12 +59,12 @@ params:
         url: "/posts"
 
   socialIcons:
-    - name: x
-      url: "https://x.com/pdrmtaheri"
-    - name: github
-      url: "https://github.com/pdrmtaheri"
     - name: linkedin
       url: "https://linkedin.com/in/pdrmtaheri"
+    - name: github
+      url: "https://github.com/pdrmtaheri"
+    - name: email
+      url: mailto:pdrm.taheri@gmail.com
 
   editPost:
     URL: https://github.com/pdrmtaheri/blog/blob/main/content
