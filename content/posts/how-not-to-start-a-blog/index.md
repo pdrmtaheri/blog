@@ -23,39 +23,39 @@ It's safe to say that my career as a software engineer and later on, an engineer
 
 The idea excited me; I wanted to have my own small corner of the internet. One that I could share with a small, but tightly bound group of like-minded people who were eager to learn, engage in discussions, and share what they knew.
 
-However, I was held back by the fear that I was not good enough. You shouldn't waste other people's times if you don't have anything novel to share, I thought.
+However, I was held back by fear of not being good enough. You shouldn't waste other people's time if you don't have anything novel to share, I thought.
 
 Writing is an act of vulnerability. It exposes all the ugly in your thoughts. You can't write a good piece on a subject if your understanding of that subject is flawed. To me, writing felt like getting naked in front of a crowd, but for your brain. If that makes sense.
 
-That scared me. Fear of rejection kept me from writing. I thought I'll be ready one day, but as you may guess, it never did.
+That scared me. Fear of rejection kept me from writing. I thought I'd be ready one day, but as you may guess, that day never came.
 
 ## The Making of This Blog
 
 While setting up my blog, I did all the optimizations expected of a nerd:
 
 - I spent a lot of time searching for a good domain.
-- I compared all the ways of creating a blog. From WordPress to SSGs.
+- I compared all the ways of creating a blog, from WordPress to SSGs.
 - I looked for different hosting solutions.
-- I went through many different themes for the site.
+- I explored various themes for the site.
 - I created an about page with ChatGPT.
 
 This is all fine. At this point, the blog was set up and ready for me to actually start writing. But I didn't stop there:
 
 - I started obsessing over lighthouse metrics, performance, SEO, etc.
-- I spent hours toying with every Cloudflare toggle just to eek out a tiny bit of performance. Obviously, this caused more issues than it solved. So I had to spend more time debugging those issues. (Looking at you, RocketLoader)
-- I researched how I can optimize the images
-- I searched for, and integrated, every analytics services I could find. Google Analytics, PostHog, MS Clarity, you name it.
-- I went back and removed most of the analytics providers, because they were causing performance issues.
+- I spent hours toying with every Cloudflare toggle just to eke out a tiny bit of performance. Obviously, this caused more issues than it solved. So I had to spend more time debugging those issues. (Looking at you, RocketLoader)
+- I researched how I can optimize the images.
+- I searched for, and integrated, every analytics service I could find. Google Analytics, PostHog, MS Clarity, you name it.
+- I went back and removed most of the analytics providers because they were causing performance issues.
 - I optimized my _headers file for security and optimal caching, which caused more problems with a Cloudflare cache rule I'd created earlier.
 
-Mind you, I was doing all of these for a completely **empty** blog. At first you might think I have focus issues, but this was the fear doing it's thing. I was distracting myself with was felt easy and natural from what was really important: Actually writing content.
+Mind you, I was doing all of these for a completely **empty** blog. At first, you might think I have focus issues, but this was the fear doing its thing. I was distracting myself with what felt easy and natural from what was really important: Actually writing content.
 
 ## My First Post
 
-Alright, at this point, I had finally convinced myself to stop running and start writing. What did I do? I opened ChatGPT, and instructed it to write my first post for me. It wasn't great at first, but it got better with more context. I even published it. It's right there in my git history.
+Alright, at this point, I had finally convinced myself to stop running and start writing. What did I do? I opened ChatGPT and instructed it to write my first post for me. It wasn't great at first, but it got better with more context. I even published it. It's right there in my git history.
 Do you remember that I said one of my goals was to improve my writing? And what did I do? I generated my first post using AI. You get the idea. I was running away **again**.
 
-After one more day of wrestling with myself, I sat down at my desk, and got to writing. And I'm happy to report that I'm feeling liberated.
+After one more day of wrestling with myself, I sat down at my desk and got to writing. And I'm happy to report that I'm feeling liberated.
 
 ## What I Learned (and Why It Doesn't Matter)
 
