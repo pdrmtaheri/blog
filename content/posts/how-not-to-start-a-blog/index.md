@@ -1,10 +1,10 @@
 ---
-date: 2024-12-21T23:01:03+03:30
+date: 2024-12-23T01:30:00+03:30
 draft: false
 title: How Not to Start a Blog
 tags: ["blog", "writing", "imposter syndrome"]
-categories: ["General"]
-summary: How I spent days optimizing a blank blog. Don't do that.
+categories: ["Writing"]
+summary: The story of my struggles with writing and setting up a personal blog.
 cover:
   image: lighthouse.webp
   alt: A screenshot of this blog's perfect lighthouse metrics.
@@ -14,90 +14,62 @@ cover:
 
 # How Not to Start a Blog
 
-I recently set up my blog. You’d think the first step would be writing content, but no—naturally, I spent hours doing everything _but_ writing. By the time I finally sat down to type something, I had spent more time optimizing a blank blog than most people spend planning for a month-long vacation overseas.
+This is the story of my struggles with writing and setting up a personal blog.
 
-Here’s how it went.
+## The Best Time to Start is Now
 
----
+I've been thinking of setting up a blog for many years. I'd heard it's a good way to improve my writing, get some visibility amongst my peers, and give back to the open community that has benefited me so immensely.
+It's safe to say that my career as a software engineer and later on, an engineering manager wouldn't have been possible without the amazingly free and accessible world we've made. I wanted to be a part of that.
 
-## The Pre-Blog Era: Years of Procrastination
+The idea excited me; I wanted to have my own small corner of the internet. One that I could share with a small, but tightly bound group of like-minded people who were eager to learn, engage in discussions, and share what they knew.
 
-Before I even touched a line of code or bought a domain, I spent years with the intention of starting a blog. I wanted to write, but I never did. Why? Imposter syndrome.
+However, I was held back by the fear that I was not good enough. You shouldn't waste other people's times if you don't have anything novel to share, I thought.
 
-I thought I didn’t have anything valuable to say. “What do _you_ have to contribute?” a little voice kept asking. “Everything worth saying has already been said.”
+Writing is an act of vulnerability. It exposes all the ugly in your thoughts. You can't write a good piece on a subject if your understanding of that subject is flawed. To me, writing felt like getting naked in front of a crowd, but for your brain. If that makes sense.
 
-That belief held me back. I convinced myself that if my writing wasn’t groundbreaking or insightful enough to go viral, it wasn’t worth sharing. So, I stayed silent, waiting for some magical moment when I’d finally feel “qualified.” Spoiler: that moment never came.
+That scared me. Fear of rejection kept me from writing. I thought I'll be ready one day, but as you may guess, it never did.
 
----
+## The Making of This Blog
 
-## Day 1: The Setup Spiral
+While setting up my blog, I did all the optimizations expected of a nerd:
 
-Eventually, I decided to stop overthinking and start blogging. Or so I thought. That’s where the distractions began:
+- I spent a lot of time searching for a good domain.
+- I compared all the ways of creating a blog. From WordPress to SSGs.
+- I looked for different hosting solutions.
+- I went through many different themes for the site.
+- I created an about page with ChatGPT.
 
-- I spent hours hunting for the perfect domain name. (This one might’ve been worth it. Time will tell.)
-- I compared blogging platforms for hours—WordPress, static site generators, you name it. Then I dove even deeper, comparing every static site generator I could find.
-- I spent a lot of time searching for a good theme before I ended up on [PaperMod](https://github.com/adityatelange/hugo-PaperMod?tab=readme-ov-file).
-- I obsessed over hosting solutions, debating every tiny detail.
-- Finally, I set up a [Git repository](https://github.com/pdrmtaheri/blog) and connected it to [Cloudflare Pages](https://pages.cloudflare.com/).
+This is all fine. At this point, the blog was set up and ready for me to actually start writing. But I didn't stop there:
 
-At this point, you’d think I was ready to start blogging. But no, the real waste came next.
+- I started obsessing over lighthouse metrics, performance, SEO, etc.
+- I spent hours toying with every Cloudflare toggle just to eek out a tiny bit of performance. Obviously, this caused more issues than it solved. So I had to spend more time debugging those issues. (Looking at you, RocketLoader)
+- I researched how I can optimize the images
+- I searched for, and integrated, every analytics services I could find. Google Analytics, PostHog, MS Clarity, you name it.
+- I went back and removed most of the analytics providers, because they were causing performance issues.
+- I optimized my _headers file for security and optimal caching, which caused more problems with a Cloudflare cache rule I'd created earlier.
 
----
+Mind you, I was doing all of these for a completely **empty** blog. At first you might think I have focus issues, but this was the fear doing it's thing. I was distracting myself with was felt easy and natural from what was really important: Actually writing content.
 
-## Day 2: The Rabbit Hole of Perfectionism
+## My First Post
 
-This is where I truly lost myself:
+Alright, at this point, I had finally convinced myself to stop running and start writing. What did I do? I opened ChatGPT, and instructed it to write my first post for me. It wasn't great at first, but it got better with more context. I even published it. It's right there in my git history.
+Do you remember that I said one of my goals was to improve my writing? And what did I do? I generated my first post using AI. You get the idea. I was running away **again**.
 
-- I started optimizing [Lighthouse metrics](https://developer.chrome.com/docs/lighthouse/performance/performance-scoring) and obsessing over SEO scores.
-- I linked my Google Analytics account with my Google Search Console, which, except for my own tests, were both completely empty.
-- I benchmarked my site with and without Cloudflare cache, running tests across three platforms: [PageSpeed Insights](https://pagespeed.web.dev/), [Lighthouse Metrics](https://lighthouse-metrics.com/), and Chrome’s performance tab.
-- I spent hours curating the perfect `_headers` for Cloudflare. (This took forever thanks to a conflict with a cache rule I’d enabled earlier. Irony? Absolutely.)
-- I enabled Cloudflare’s Rocket Loader, which promptly caused my theme to flicker during the initial switch from light mode to dark mode.
-- Instead of disabling Rocket Loader (because _obviously_ that would be too easy), I spent more hours hunting down the problematic script, finding a way to exempt it, and fixing the issue.
+After one more day of wrestling with myself, I sat down at my desk, and got to writing. And I'm happy to report that I'm feeling liberated.
 
-While trying to improve my Lighthouse scores, I also got curious about how [Hugo](https://gohugo.io/) handles image optimization. That led to another detour: learning about Hugo's image processing pipeline. I spent hours fiddling with it, tweaking sizes and formats, just for the sake of understanding it. Did this make a huge difference? Not really, but at least I learned something.
+## What I Learned (and Why It Doesn't Matter)
 
----
+I learned a lot of things in my little detours:
 
-## Day 3: Analytics Overkill
-
-By now, you might think I’d stop tinkering. Nope. I decided my blank blog needed _all_ the analytics:
-
-- [Google Analytics](https://analytics.google.com/)? Sure.
-- [PostHog](https://posthog.com/)? Yes! I had to know what all the fuss is about.
-- [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/)? Why not.
-- [Microsoft Clarity](https://clarity.microsoft.com/)? Of course.
-
-It didn’t take long to realize all these tools were hogging bandwidth (Yes I was still benchmarking the EMPTY BLOG). So, after testing and playing around with each, I removed them all except for Google Analytics. A simpler solution that would've taken much less time to implement.
-
----
-
-## Mid-Article Detour: The Cover Must be Absolutely Perfect
-
-Even while writing this article, I got distracted. I wanted to optimize the featured image for this post. Naturally, I decided to convert it to WebP. But it didn’t look good, so I tried different WebP quality levels. Still not great. I switched back to PNG. That wasn’t much better either. After half an hour of back-and-forth tinkering, I finally landed back on WebP.
-
-At this point, I was basically recreating the entire blog optimization journey _while writing about it._ The irony wasn’t lost on me.
-
----
-
-## What I Learned (and Why It Was Still a Waste)
-
-Here’s the twist: I actually learned a lot.
-
-- I picked up Hugo and explored the quirks of static site generators.
-- I discovered the caveats of Cloudflare Rocket Loader and fiddled with netlify-style `_headers` files until they worked.
+- I got familiar with some of Cloudflare's fancy toys.
+- I got introduced to netlify-style `_headers` files.
 - I played with PostHog and got a crash course in Lighthouse metrics.
 - I even learned a thing or two about HTTP headers.
-- And yes, I learned way more about Hugo’s image pipeline than I ever planned to.
 
 But here’s the thing: that wasn’t the goal. A waste is still a waste, even if it’s an _educational_ one. My goal was to start writing, not to become a web optimization guru.
 
----
+## Takeaways
 
-## The Real Lesson
+Don't let your fears hold you back as long as I allowed mine to. Don't let your inner voice convince you that you're not good enough to publish, or be heard. You are. Each person's experiences are unique. No one's ever been in the exact situation that you've been. No one's walked the exact path that you have.
 
-If you’re starting a blog, don’t do what I did. Forget the metrics, the hosting debates, and the endless optimizations. Start with content. Write something. Anything. It doesn’t need to be perfect—it just needs to exist.
-
-The truth is, no one comes to your blog to admire your perfect PageSpeed score. They come to read your ideas. So, focus on those first. The rest? Save it for later.
-
-Oh, and if you hear that little voice of doubt—the one that says, “You’re not good enough” or “What do you have to contribute?”—ignore it. Just write. Trust me, the world doesn’t need another perfectly optimized blank blog.
+Let this post serve as a reminder that you don't have to be perfect to start.
