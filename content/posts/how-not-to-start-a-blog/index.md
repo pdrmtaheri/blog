@@ -12,8 +12,6 @@ cover:
   relative: true
 ---
 
-# How Not to Start a Blog
-
 This is the story of my struggles with writing and setting up a personal blog.
 
 ## The Best Time to Start is Now
