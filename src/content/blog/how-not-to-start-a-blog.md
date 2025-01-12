@@ -39,7 +39,7 @@ This is all fine. At this point, the blog was set up and ready for me to actuall
 - I researched how I can optimize the images.
 - I searched for, and integrated, every analytics service I could find. Google Analytics, PostHog, MS Clarity, you name it.
 - I went back and removed most of the analytics providers because they were causing performance issues.
-- I optimized my _headers file for security and optimal caching, which caused more problems with a Cloudflare cache rule I'd created earlier.
+- I optimized my \_headers file for security and optimal caching, which caused more problems with a Cloudflare cache rule I'd created earlier.
 
 Mind you, I was doing all of these for a completely **empty** blog. At first, you might think I have focus issues, but this was the fear doing its thing. I was distracting myself with what felt easy and natural from what was really important: Actually writing content.
 
