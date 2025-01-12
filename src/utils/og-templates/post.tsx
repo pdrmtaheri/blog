@@ -80,7 +80,7 @@ export default async (post: CollectionEntry<"blog">): Promise<string> =>
                   color: "transparent",
                 }}
               >
-                "
+                &quot;
               </span>
               <span style={{ overflow: "hidden", fontWeight: "bold" }}>
                 {post.data.author}

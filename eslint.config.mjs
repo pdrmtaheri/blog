@@ -1,26 +1,43 @@
 import tseslint from "typescript-eslint";
 import eslint from "@eslint/js";
+import react from "eslint-plugin-react";
+import reactHooks from "eslint-plugin-react-hooks";
+import astro from "eslint-plugin-astro";
+import jsxA11y from "eslint-plugin-jsx-a11y";
+import astroParser from "astro-eslint-parser";
+
+const baseRules = {};
 
 export default [
-  eslint.configs.recommended,
   {
-    ignores: [".astro/**/*", "dist/**/*"],
+    ignores: [
+      "dist/**/*",
+      "node_modules/**/*",
+      ".astro/**/*",
+    ],
   },
   {
     files: ["**/*.js"],
-    languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
-      globals: {
-        window: "readonly",
-        document: "readonly",
-        localStorage: "readonly",
-        history: "readonly",
-        navigator: "readonly",
-        location: "readonly",
-        fetch: "readonly",
-        Buffer: "readonly",
+    ...eslint.configs.recommended,
+    rules: baseRules,
+  },
+  {
+    files: ["**/*.{jsx,tsx}"],
+    plugins: {
+      react,
+      "react-hooks": reactHooks,
+      "jsx-a11y": jsxA11y,
+    },
+    settings: {
+      react: {
+        version: "detect",
       },
+    },
+    rules: {
+      ...react.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
+      ...baseRules,
+      "react/react-in-jsx-scope": "off",
     },
   },
   {
@@ -28,57 +45,66 @@ export default [
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: "./tsconfig.json",
-        ecmaVersion: "latest",
-        sourceType: "module",
-      },
-      globals: {
-        window: "readonly",
-        document: "readonly",
-        localStorage: "readonly",
-        history: "readonly",
-        navigator: "readonly",
-        location: "readonly",
-        fetch: "readonly",
-        Buffer: "readonly",
+        project: true,
+        tsconfigRootDir: import.meta.dirname,
       },
     },
     plugins: {
       "@typescript-eslint": tseslint.plugin,
     },
     rules: {
-      "@typescript-eslint/no-floating-promises": "error",
+      ...tseslint.configs.strictTypeChecked.rules,
+      ...tseslint.configs.stylisticTypeChecked.rules,
+      ...baseRules,
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/explicit-function-return-type": "error",
       "@typescript-eslint/explicit-module-boundary-types": "error",
-      "@typescript-eslint/no-unused-vars": "error",
-      "@typescript-eslint/strict-boolean-expressions": "error",
-      "@typescript-eslint/no-require-imports": "error",
-      "@typescript-eslint/triple-slash-reference": "error",
       "@typescript-eslint/naming-convention": [
         "error",
         {
           selector: "interface",
           format: ["PascalCase"],
           prefix: ["I"],
-        },
-        {
-          selector: "typeAlias",
-          format: ["PascalCase"],
-        },
-        {
-          selector: "variable",
-          format: ["camelCase", "UPPER_CASE", "PascalCase"],
+          filter: {
+            regex: "^(Props|Render|RenderResult|RenderedContent)$",
+            match: false
+          }
         },
       ],
-      "max-depth": ["error", 5],
-      "max-lines-per-function": ["error", 100],
-      complexity: ["error", 15],
-      "no-shadow": "error",
-      "no-duplicate-imports": "error",
-      "prefer-template": "error",
-      "arrow-body-style": ["error", "as-needed"],
-      "object-shorthand": "error",
+    },
+  },
+  {
+    files: ["**/*.astro"],
+    languageOptions: {
+      parser: astroParser,
+      parserOptions: {
+        parser: tseslint.parser,
+        extraFileExtensions: [".astro"],
+        project: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+    plugins: {
+      astro,
+      "@typescript-eslint": tseslint.plugin,
+    },
+    rules: {
+      ...tseslint.configs.strictTypeChecked.rules,
+      ...tseslint.configs.stylisticTypeChecked.rules,
+      ...baseRules,
+      ...astro.configs.all.rules,
+      "@typescript-eslint/naming-convention": [
+        "error",
+        {
+          selector: "interface",
+          format: ["PascalCase"],
+          prefix: ["I"],
+          filter: {
+            regex: "^(Props|StringTitleProp|ArrayTitleProp)$",
+            match: false
+          }
+        },
+      ],
     },
   },
 ];
