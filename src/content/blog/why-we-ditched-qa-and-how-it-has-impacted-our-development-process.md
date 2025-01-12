@@ -1,7 +1,7 @@
 ---
 pubDatetime: 2024-12-29T18:53:01+03:30
-title: "Why We Ditched QA and How It’s Impacted Our Development Process"
-slug: ditching-qa
+title: "Why We Ditched QA and How It Has Impacted Our Development Process"
+slug: why-we-ditched-qa-and-how-it-has-impacted-our-development-process
 draft: false
 tags: ["testing", "quality assurance"]
 description: Why you don't need QAs to produce good software.

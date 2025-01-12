@@ -24,6 +24,9 @@ That scared me. Fear of rejection kept me from writing. I thought I'd be ready o
 
 ## The Making of This Blog
 
+![This Blog's Perfect Lighthouse Scores](@assets/images/blog-lighthouse.png)
+This isn't important.
+
 While setting up my blog, I did all the optimizations expected of a nerd:
 
 - I spent a lot of time searching for a good domain.
