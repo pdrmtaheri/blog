@@ -5,7 +5,6 @@ import react from "@astrojs/react";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
-import compress from "astro-compress";
 import { SITE } from "./src/config";
 import type { Node } from "unist";
 
@@ -25,7 +24,6 @@ export default defineConfig({
     }),
     react(),
     sitemap(),
-    compress(),
   ],
   markdown: {
     remarkPlugins: [
@@ -49,7 +47,6 @@ export default defineConfig({
   vite: {
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
-      include: ["react", "react-dom"]
     },
   },
 });
