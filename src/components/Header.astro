@@ -355,14 +355,41 @@ const { activeNav } = Astro.props;
   function updateScrollProgress() {
     const progressBar = document.querySelector(".scroll-progress");
     if (progressBar instanceof HTMLElement) {
-      const windowHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      const progress = Math.min(100, Math.max(0, (window.scrollY / windowHeight) * 100));
-      progressBar.style.width = `${progress}%`;
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+      const scrollableHeight = docHeight - winHeight;
+
+      // Use a more natural easing function
+      const scrolled = window.scrollY;
+      const scrollProgress = scrollableHeight <= 0 ? 0 : (scrolled / scrollableHeight) * 100;
+
+      // Use requestAnimationFrame for smoother updates
+      requestAnimationFrame(() => {
+        progressBar.style.width = `${scrollProgress}%`;
+      });
     }
   }
 
+  // Add throttling to scroll event for better performance
+  function throttle(func: (...args: any[]) => void, limit: number) {
+    let inThrottle: boolean;
+    return function (this: any, ...args: any[]) {
+      if (!inThrottle) {
+        func.apply(this, args);
+        inThrottle = true;
+        setTimeout(() => (inThrottle = false), limit);
+      }
+    };
+  }
+
   toggleNav();
-  window.addEventListener("scroll", handleScroll);
+  // Throttle scroll event handler
+  window.addEventListener(
+    "scroll",
+    throttle(() => {
+      handleScroll();
+    }, 10)
+  ); // 10ms throttle for smooth animation
   window.addEventListener("resize", updateNavHeight);
   updateNavHeight(); // Initial height set
 
