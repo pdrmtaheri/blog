@@ -178,10 +178,14 @@ const { activeNav } = Astro.props;
   }
   .nav-container {
     @apply mx-auto flex max-w-3xl flex-col items-center justify-between sm:flex-row;
+    transform: translateZ(0);
+    will-change: transform;
   }
   .top-nav-wrap {
     @apply relative flex w-full items-center justify-between p-4 sm:items-center sm:py-8;
-    transition: padding 0.2s ease-in-out;
+    transition: padding 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateZ(0);
+    will-change: transform;
   }
   .top-nav-wrap.shrunk {
     @apply !py-0.5 sm:!py-2;
@@ -271,8 +275,10 @@ const { activeNav } = Astro.props;
   }
 
   .scroll-progress {
-    @apply absolute top-0 left-0 h-[2px] w-0 bg-skin-accent transition-all duration-100;
-    transition: width 100ms ease-out;
+    @apply absolute top-0 left-0 h-[2px] w-0 bg-skin-accent;
+    transform: translateZ(0);
+    will-change: transform, width;
+    transition: width 0.1s cubic-bezier(0.4, 0, 0.2, 1);
   }
 </style>
 
@@ -367,10 +373,12 @@ const { activeNav } = Astro.props;
 
   function updateScrollProgress() {
     const progressBar = document.querySelector(".scroll-progress");
-    if (progressBar) {
-      const windowHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (window.scrollY / windowHeight) * 100;
+    if (progressBar instanceof HTMLElement) {
+      const windowHeight = Math.max(
+        1,
+        document.documentElement.scrollHeight - window.innerHeight
+      );
+      const progress = Math.min(100, Math.max(0, (window.scrollY / windowHeight) * 100));
       progressBar.style.width = `${progress}%`;
     }
   }
