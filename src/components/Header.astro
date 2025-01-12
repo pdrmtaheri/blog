@@ -11,6 +11,7 @@ const { activeNav } = Astro.props;
 ---
 
 <header class="sticky top-0 z-50 bg-skin-fill">
+  <div class="scroll-progress"></div>
   <a id="skip-to-content" href="#main-content">Skip to content</a>
   <div class="nav-container">
     <div class="top-nav-wrap">
@@ -204,7 +205,9 @@ const { activeNav } = Astro.props;
     @apply fixed left-0 right-0 z-50 flex w-full flex-col items-center bg-skin-fill shadow-lg
     pb-8 pt-4 sm:static sm:w-auto sm:flex-row sm:items-center sm:bg-transparent 
     sm:pb-0 sm:pt-0 sm:shadow-none sm:gap-6;
-    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    transition:
+      transform 0.2s ease-in-out,
+      opacity 0.2s ease-in-out;
     top: var(--header-height, 0);
     will-change: transform, top;
   }
@@ -265,6 +268,11 @@ const { activeNav } = Astro.props;
   }
   .menu-icon.is-active .close {
     @apply opacity-100;
+  }
+
+  .scroll-progress {
+    @apply absolute top-0 left-0 h-[2px] w-0 bg-skin-accent transition-all duration-100;
+    transition: width 100ms ease-out;
   }
 </style>
 
@@ -352,6 +360,19 @@ const { activeNav } = Astro.props;
     if (isMenuOpen && !isTransitioning) {
       updateNavHeight();
     }
+
+    // Update progress bar
+    updateScrollProgress();
+  }
+
+  function updateScrollProgress() {
+    const progressBar = document.querySelector(".scroll-progress");
+    if (progressBar) {
+      const windowHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / windowHeight) * 100;
+      progressBar.style.width = `${progress}%`;
+    }
   }
 
   toggleNav();
@@ -365,4 +386,7 @@ const { activeNav } = Astro.props;
     handleScroll();
     updateNavHeight();
   });
+
+  // Add initial progress update
+  updateScrollProgress();
 </script>
