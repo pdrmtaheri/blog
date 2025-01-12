@@ -10,7 +10,7 @@ export interface Props {
 const { activeNav } = Astro.props;
 ---
 
-<header>
+<header class="sticky top-0 z-50 bg-skin-fill">
   <a id="skip-to-content" href="#main-content">Skip to content</a>
   <div class="nav-container">
     <div class="top-nav-wrap">
@@ -180,25 +180,40 @@ const { activeNav } = Astro.props;
   }
   .top-nav-wrap {
     @apply relative flex w-full items-center justify-between p-4 sm:items-center sm:py-8;
+    transition: padding 0.2s ease-in-out;
+  }
+  .top-nav-wrap.shrunk {
+    @apply !py-0.5 sm:!py-2;
+  }
+  .top-nav-wrap.shrunk .logo {
+    @apply !text-sm sm:!text-xl;
+    transform: scaleY(0.85);
+    transform-origin: center;
   }
   .logo {
     @apply py-1 text-xl font-semibold sm:text-2xl;
-  }
-  .hamburger-menu {
-    @apply p-2 sm:hidden;
-  }
-  .hamburger-menu svg {
-    @apply h-6 w-6 scale-125 fill-skin-base;
+    transition: all 0.2s ease-in-out;
   }
 
+  /* Mobile menu positioning */
   nav {
     @apply flex items-center gap-2 sm:ml-2 sm:flex-row sm:justify-end sm:gap-8 sm:py-0;
   }
   nav ul {
-    @apply fixed top-20 left-0 z-50 flex w-full flex-col items-center bg-skin-fill 
-    pb-8 pt-4 sm:relative sm:top-0 sm:z-auto sm:ml-0 sm:mt-0 sm:flex-row sm:items-center sm:gap-8 sm:bg-transparent 
-    sm:pb-0 sm:pt-0;
+    @apply fixed left-0 right-0 z-50 flex w-full flex-col items-center bg-skin-fill shadow-lg
+    pb-8 pt-4 sm:relative sm:top-0 sm:z-auto sm:ml-0 sm:mt-0 sm:flex-row sm:items-center 
+    sm:gap-8 sm:bg-transparent sm:pb-0 sm:pt-0 sm:shadow-none;
+    transition:
+      transform 0.2s ease-in-out,
+      opacity 0.2s ease-in-out;
+    top: var(--header-height, 0);
+    will-change: transform, top;
   }
+  nav ul.display-none {
+    @apply invisible opacity-0 sm:visible sm:opacity-100;
+    visibility: hidden;
+  }
+
   nav ul li {
     @apply w-full text-center sm:w-auto;
   }
@@ -221,17 +236,21 @@ const { activeNav } = Astro.props;
 
   nav button {
     @apply p-1;
+    transition: all 0.2s ease-in-out;
   }
   nav button svg {
     @apply h-6 w-6 fill-skin-base hover:fill-skin-accent;
+    transition: all 0.2s ease-in-out;
   }
   #theme-btn,
   #theme-btn-desktop {
     @apply p-3 sm:p-1;
+    transition: all 0.2s ease-in-out;
   }
   #theme-btn svg,
   #theme-btn-desktop svg {
     @apply h-6 w-6 scale-125 fill-skin-base hover:fill-skin-accent hover:rotate-12 sm:scale-100;
+    transition: all 0.2s ease-in-out;
   }
 
   .menu-icon line {
@@ -249,8 +268,22 @@ const { activeNav } = Astro.props;
 </style>
 
 <script>
+  let isTransitioning = false;
+  const TRANSITION_DURATION = 200; // match the CSS transition duration
+  const SCROLL_THRESHOLD = 50;
+  const SCROLL_BUFFER = 30;
+
+  function updateNavHeight() {
+    const header = document.querySelector("header");
+    if (header) {
+      document.documentElement.style.setProperty(
+        "--header-height",
+        `${header.offsetHeight}px`,
+      );
+    }
+  }
+
   function toggleNav() {
-    // Toggle menu
     const menuBtn = document.querySelector(".hamburger-menu");
     const menuIcon = document.querySelector(".menu-icon");
     const menuItems = document.querySelector("#menu-items");
@@ -264,11 +297,71 @@ const { activeNav } = Astro.props;
         menuExpanded ? "Open Menu" : "Close Menu",
       );
       menuItems?.classList.toggle("display-none");
+
+      // Update position immediately when opening
+      if (!menuExpanded) {
+        updateNavHeight();
+      }
     });
   }
 
+  function handleScroll() {
+    const currentScroll = window.scrollY;
+    const topNavWrap = document.querySelector(".top-nav-wrap");
+    const hamburgerMenu = document.querySelector(".hamburger-menu");
+    const navButtons = document.querySelectorAll("nav button");
+    const themeBtn = document.querySelector("#theme-btn");
+    const menuItems = document.querySelector("#menu-items");
+    const isMenuOpen =
+      menuItems && !menuItems.classList.contains("display-none");
+
+    // Add hysteresis to prevent jiggling
+    if (topNavWrap?.classList.contains("shrunk")) {
+      if (currentScroll <= SCROLL_THRESHOLD - SCROLL_BUFFER) {
+        if (!isTransitioning) {
+          isTransitioning = true;
+
+          // Update position multiple times during expansion
+          updateNavHeight();
+          const intervalId = setInterval(updateNavHeight, 16); // roughly 60fps
+
+          topNavWrap?.classList.remove("shrunk");
+          hamburgerMenu?.classList.remove("!scale-75");
+          navButtons?.forEach((btn) => btn.classList.remove("!scale-75"));
+          themeBtn?.classList.remove("!scale-75");
+
+          setTimeout(() => {
+            clearInterval(intervalId);
+            updateNavHeight();
+            isTransitioning = false;
+          }, TRANSITION_DURATION);
+        }
+      }
+    } else {
+      if (currentScroll > SCROLL_THRESHOLD + SCROLL_BUFFER) {
+        topNavWrap?.classList.add("shrunk");
+        hamburgerMenu?.classList.add("!scale-75");
+        navButtons?.forEach((btn) => btn.classList.add("!scale-75"));
+        themeBtn?.classList.add("!scale-75");
+        updateNavHeight();
+      }
+    }
+
+    // Always update menu position on scroll if it's open
+    if (isMenuOpen && !isTransitioning) {
+      updateNavHeight();
+    }
+  }
+
   toggleNav();
+  window.addEventListener("scroll", handleScroll);
+  window.addEventListener("resize", updateNavHeight);
+  updateNavHeight(); // Initial height set
 
   // Runs on view transitions navigation
-  document.addEventListener("astro:after-swap", toggleNav);
+  document.addEventListener("astro:after-swap", () => {
+    toggleNav();
+    handleScroll();
+    updateNavHeight();
+  });
 </script>
