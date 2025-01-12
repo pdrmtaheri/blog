@@ -4,6 +4,7 @@ import react from "@astrojs/react";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
+import partytown from "@astrojs/partytown";
 import { SITE } from "./src/config";
 
 // https://astro.build/config
@@ -17,6 +18,11 @@ export default defineConfig({
     react(),
     sitemap({
       filter: (page) => SITE.showArchives || !page.endsWith("/archives"),
+    }),
+    partytown({
+      config: {
+        forward: ["posthog.capture", "posthog.identify", "posthog.init", "posthog"],
+      },
     }),
   ],
   markdown: {
