@@ -59,6 +59,14 @@ window.onload = () => {
       themeValue = themeValue === "light" ? "dark" : "light";
       setPreference();
     });
+
+    // Add listener for desktop theme button
+    document
+      .querySelector("#theme-btn-desktop")
+      ?.addEventListener("click", () => {
+        themeValue = themeValue === "light" ? "dark" : "light";
+        setPreference();
+      });
   }
 
   setThemeFeature();
