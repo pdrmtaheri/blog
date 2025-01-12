@@ -34,13 +34,19 @@ export default function Comments({
 
   useEffect(() => {
     const themeButton = document.querySelector("#theme-btn");
+    const themeButtonDesktop = document.querySelector("#theme-btn-desktop");
+
     const handleClick = () => {
       setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
     };
 
     themeButton?.addEventListener("click", handleClick);
+    themeButtonDesktop?.addEventListener("click", handleClick);
 
-    return () => themeButton?.removeEventListener("click", handleClick);
+    return () => {
+      themeButton?.removeEventListener("click", handleClick);
+      themeButtonDesktop?.removeEventListener("click", handleClick);
+    };
   }, []);
 
   return (
