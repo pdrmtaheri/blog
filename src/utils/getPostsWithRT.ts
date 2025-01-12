@@ -4,14 +4,13 @@ import { toString } from "mdast-util-to-string";
 import type { Root } from "mdast";
 import type { VFile } from "vfile";
 
-export const remarkReadingTime = (): ((_tree: Root, _file: VFile) => void) => {
-  return (_tree: Root, _file: VFile) => {
+export const remarkReadingTime =
+  (): ((_tree: Root, _file: VFile) => void) => (_tree: Root, _file: VFile) => {
     const textOnPage = toString(_tree);
     const readingTime = getReadingTime(textOnPage);
     // @ts-expect-error: Astro adds custom data properties to VFile
     _file.data.astro.frontmatter.readingTime = readingTime.text;
   };
-};
 
 export const getPostsWithRT = async (
   posts: CollectionEntry<"blog">[],

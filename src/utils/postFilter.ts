@@ -1,11 +1,9 @@
-import { SITE } from "@config";
 import type { CollectionEntry } from "astro:content";
 
-const postFilter = ({ data }: CollectionEntry<"blog">): boolean => {
+const postFilter = (post: CollectionEntry<"blog">): boolean => {
   const isPublishTimePassed =
-    Date.now() >
-    new Date(data.pubDatetime).getTime() - SITE.scheduledPostMargin;
-  return !data.draft && (import.meta.env.DEV || isPublishTimePassed);
+    new Date(post.data.pubDatetime).getTime() <= Date.now();
+  return post.data.draft !== true && isPublishTimePassed;
 };
 
 export default postFilter;

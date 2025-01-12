@@ -1,10 +1,8 @@
-import type { FontStyle, FontWeight } from "satori";
-
-export interface FontOptions {
-  name: string;
-  data: ArrayBuffer;
-  weight: FontWeight | undefined;
-  style: FontStyle | undefined;
+export interface IFontOptions {
+  family: string;
+  weight?: number;
+  text?: string;
+  style?: string;
 }
 
 async function loadGoogleFont(
@@ -31,7 +29,7 @@ async function loadGoogleFont(
   const res = await fetch(resource[1]);
 
   if (!res.ok) {
-    throw new Error("Failed to download dynamic font. Status: " + res.status);
+    throw new Error(`Failed to download dynamic font. Status: ${res.status}`);
   }
 
   const fonts: ArrayBuffer = await res.arrayBuffer();

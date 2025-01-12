@@ -1,31 +1,36 @@
 import type { APIRoute } from "astro";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
 import { generateOgImageForPost } from "@utils/generateOgImages";
-import slugifyStr from "@utils/slugify";
 
-export async function getStaticPaths(): Promise<
-  {
-    params: { slug: string };
-    props: CollectionEntry<"blog">;
-  }[]
-> {
-  const posts = await getCollection("blog").then((p) =>
-    p.filter(({ data }) => !data.draft && !data.ogImage),
-  );
-
-  return posts.map((post) => ({
-    params: { slug: slugifyStr(post.data.title) },
-    props: post,
-  }));
+interface IStaticPath {
+  params: { slug: string };
 }
 
-export const GET: APIRoute = async ({ props }) => {
-  const imageBuffer = await generateOgImageForPost(
-    props as CollectionEntry<"blog">,
-  );
+export const getStaticPaths = async (): Promise<IStaticPath[]> => {
+  const posts = await getCollection("blog");
+  return posts.map(post => ({
+    params: { slug: post.slug },
+  }));
+};
+
+export const GET: APIRoute = async ({ params }) => {
+  const posts = await getCollection("blog");
+  const matchingPost = posts.find(post => post.slug === params.slug);
+
+  if (matchingPost === undefined) {
+    return new Response("Post not found", { status: 404 });
+  }
+
+  const { data } = matchingPost;
+  const isDraft = data.draft === true;
+  const isScheduled = new Date(data.pubDatetime).getTime() > Date.now();
+
+  if (isDraft || isScheduled) {
+    return new Response("Post not available", { status: 403 });
+  }
+
+  const imageBuffer = await generateOgImageForPost(matchingPost);
   return new Response(imageBuffer, {
     headers: { "Content-Type": "image/png" },
   });
 };
-
-export const prerender = true;

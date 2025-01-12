@@ -3,8 +3,8 @@ import type { CollectionEntry } from "astro:content";
 import { SITE } from "@config";
 import loadGoogleFonts, { type FontOptions } from "../loadGoogleFont";
 
-export default async (post: CollectionEntry<"blog">): Promise<string> => {
-  return satori(
+export default async (post: CollectionEntry<"blog">): Promise<string> =>
+  satori(
     <div
       style={{
         background: "#fefbfb",
@@ -99,8 +99,7 @@ export default async (post: CollectionEntry<"blog">): Promise<string> => {
       height: 630,
       embedFont: true,
       fonts: (await loadGoogleFonts(
-        post.data.title + post.data.author + SITE.title + "by",
+        `${post.data.title + post.data.author + SITE.title}by`,
       )) as FontOptions[],
     },
   );
-};

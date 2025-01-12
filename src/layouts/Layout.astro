@@ -56,6 +56,7 @@ const structuredData = {
 <html
   lang=`${LOCALE.lang ?? "en"}`
   class={`${scrollSmooth && "scroll-smooth"}`}
+  data-theme="light"
 >
   <head>
     <meta charset="UTF-8" />
@@ -121,7 +122,7 @@ const structuredData = {
       crossorigin
     />
 
-    <meta name="theme-color" content="" />
+    <meta name="theme-color" content="#ffffff" />
 
     {
       googleSiteVerification && (
@@ -134,8 +135,14 @@ const structuredData = {
 
     <ClientRouter />
 
-    <script data-cfasync="false" is:inline src="/toggle-theme.js" async
-    ></script>
+    <script is:inline>
+      // Immediately set the theme on page load to prevent flash
+      const theme = localStorage.getItem("theme") || 
+        (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    </script>
+
+    <script is:inline src="/toggle-theme.js"></script>
   </head>
   <body>
     <slot />

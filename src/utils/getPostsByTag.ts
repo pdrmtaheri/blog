@@ -1,14 +1,13 @@
 import type { CollectionEntry } from "astro:content";
 import slugifyAll from "./slugify";
-import getSortedPosts from "./getSortedPosts";
 
-export const getPostsByTag = async (
+export const getPostsByTag = (
   posts: CollectionEntry<"blog">[],
   tag: string,
-): Promise<CollectionEntry<"blog">[]> => {
-  return getSortedPosts(
-    posts.filter((post) =>
-      post.data.tags.map((t) => slugifyAll(t)).includes(tag),
-    ),
+): CollectionEntry<"blog">[] => {
+  const filteredPosts = posts.filter(
+    (post) =>
+      post.data.tags !== undefined && slugifyAll(post.data.tags).includes(tag),
   );
+  return filteredPosts;
 };

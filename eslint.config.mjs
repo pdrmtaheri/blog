@@ -1,72 +1,84 @@
-import js from "@eslint/js";
-import globals from "globals";
 import tseslint from "typescript-eslint";
-import astroParser from "astro-eslint-parser";
-import eslintPluginAstro from "eslint-plugin-astro";
+import eslint from "@eslint/js";
 
 export default [
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
-  ...eslintPluginAstro.configs.recommended,
+  eslint.configs.recommended,
   {
+    ignores: [".astro/**/*", "dist/**/*"],
+  },
+  {
+    files: ["**/*.js"],
     languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
       globals: {
-        ...globals.browser,
-        ...globals.node,
+        window: "readonly",
+        document: "readonly",
+        localStorage: "readonly",
+        history: "readonly",
+        navigator: "readonly",
+        location: "readonly",
+        fetch: "readonly",
+        Buffer: "readonly",
       },
-    },
-    rules: {
-      // Error prevention
-      "no-console": ["warn"],
-      "no-debugger": ["error"],
-      "no-unused-vars": [
-        "error",
-        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
-      ],
-      "no-undef": ["error"],
-
-      // Best practices
-      eqeqeq: ["error", "always"],
-      "no-var": ["error"],
-      "prefer-const": ["error"],
-      "no-multiple-empty-lines": ["error", { max: 1, maxEOF: 0 }],
-
-      // Style consistency
-      semi: ["error", "always"],
-      quotes: ["error", "double"],
-      indent: ["error", 2],
-      "comma-dangle": ["error", "always-multiline"],
-
-      // TypeScript specific
-      "@typescript-eslint/explicit-module-boundary-types": ["warn"],
-      "@typescript-eslint/no-explicit-any": ["warn"],
-      "@typescript-eslint/no-unused-vars": ["error"],
-      "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
     },
   },
   {
-    files: ["*.astro"],
+    files: ["**/*.{ts,tsx}"],
     languageOptions: {
-      parser: astroParser,
+      parser: tseslint.parser,
       parserOptions: {
-        parser: "@typescript-eslint/parser",
-        extraFileExtensions: [".astro"],
+        project: "./tsconfig.json",
+        ecmaVersion: "latest",
+        sourceType: "module",
+      },
+      globals: {
+        window: "readonly",
+        document: "readonly",
+        localStorage: "readonly",
+        history: "readonly",
+        navigator: "readonly",
+        location: "readonly",
+        fetch: "readonly",
+        Buffer: "readonly",
       },
     },
-  },
-  {
-    files: ["tailwind.config.cjs", "**/*.d.ts"],
-    rules: {
-      "@typescript-eslint/no-require-imports": "off",
-      "@typescript-eslint/triple-slash-reference": "off",
+    plugins: {
+      "@typescript-eslint": tseslint.plugin,
     },
-  },
-  {
     rules: {
-      "@typescript-eslint/no-unused-expressions": "off",
+      "@typescript-eslint/no-floating-promises": "error",
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/explicit-function-return-type": "error",
+      "@typescript-eslint/explicit-module-boundary-types": "error",
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/strict-boolean-expressions": "error",
+      "@typescript-eslint/no-require-imports": "error",
+      "@typescript-eslint/triple-slash-reference": "error",
+      "@typescript-eslint/naming-convention": [
+        "error",
+        {
+          selector: "interface",
+          format: ["PascalCase"],
+          prefix: ["I"],
+        },
+        {
+          selector: "typeAlias",
+          format: ["PascalCase"],
+        },
+        {
+          selector: "variable",
+          format: ["camelCase", "UPPER_CASE", "PascalCase"],
+        },
+      ],
+      "max-depth": ["error", 5],
+      "max-lines-per-function": ["error", 100],
+      complexity: ["error", 15],
+      "no-shadow": "error",
+      "no-duplicate-imports": "error",
+      "prefer-template": "error",
+      "arrow-body-style": ["error", "as-needed"],
+      "object-shorthand": "error",
     },
-  },
-  {
-    ignores: ["dist/**", ".astro", "src/components/PostHog.astro"],
   },
 ];

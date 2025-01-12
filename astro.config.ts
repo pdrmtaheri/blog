@@ -1,45 +1,49 @@
 import { defineConfig } from "astro/config";
+import mdx from "@astrojs/mdx";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
 import { SITE } from "./src/config";
-import { remarkReadingTime } from "./src/utils/remark-reading-time";
+import type { Node } from "unist";
 
-import compress from "astro-compress";
+interface IHeadingNode extends Node {
+  type: "heading";
+  depth: number;
+  children: Array<{ value: string }>;
+}
 
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
-  output: "static",
   integrations: [
+    mdx(),
     tailwind({
       applyBaseStyles: false,
     }),
     react(),
-    sitemap({
-      filter: (page) => SITE.showArchives || !page.endsWith("/archives"),
-    }),
-    compress(),
+    sitemap(),
   ],
   markdown: {
     remarkPlugins: [
       remarkToc,
-      remarkReadingTime,
       [
         remarkCollapse,
         {
-          test: "Table of contents",
+          test: (node: Node): boolean =>
+            node.type === "heading" &&
+            (node as IHeadingNode).depth > 1 &&
+            (node as IHeadingNode).depth < 4,
+          summary: (node: IHeadingNode): string => node.children[0].value,
         },
       ],
     ],
     shikiConfig: {
-      themes: { light: "min-light", dark: "night-owl" },
+      theme: "one-dark-pro",
       wrap: true,
     },
   },
-  scopedStyleStrategy: "where",
   vite: {
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],

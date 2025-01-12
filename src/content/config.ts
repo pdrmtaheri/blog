@@ -33,5 +33,5 @@ const blog = defineCollection({
 });
 
 export const collections = {
-  blog: blog,
+  blog,
 };

@@ -2,16 +2,16 @@ import slugifyStr from "./slugify";
 import type { CollectionEntry } from "astro:content";
 import postFilter from "./postFilter";
 
-interface Tag {
+interface ITag {
   tag: string;
-  tagName: string;
+  count: number;
 }
 
-const getUniqueTags = (posts: CollectionEntry<"blog">[]): Tag[] => {
-  const tags: Tag[] = posts
+const getUniqueTags = (posts: CollectionEntry<"blog">[]): ITag[] => {
+  const tags: ITag[] = posts
     .filter(postFilter)
     .flatMap((post) => post.data.tags)
-    .map((tag) => ({ tag: slugifyStr(tag), tagName: tag }))
+    .map((tag) => ({ tag: slugifyStr(tag), count: 1 }))
     .filter(
       (value, index, self) =>
         self.findIndex((tag) => tag.tag === value.tag) === index,

@@ -1,12 +1,10 @@
-import kebabcase from "lodash.kebabcase";
+import kebabCase from "lodash.kebabcase";
 
-const slugifyStr = (str: string): string => {
-  return kebabcase(str);
+const slugifyStr = (str: string | undefined | null): string => {
+  if (str === undefined || str === null || str === "") {
+    return "";
+  }
+  return kebabCase(str);
 };
 
-const slugifyAll = (str: string | undefined): string => {
-  if (!str) return "";
-  return slugifyStr(str);
-};
-
-export default slugifyAll;
+export default slugifyStr;

@@ -1,9 +1,7 @@
+import { useEffect, useState, type ReactElement } from "react";
 import Giscus, { type Theme } from "@giscus/react";
-import { GISCUS } from "@config";
-import { useEffect, useState } from "react";
-import type { ReactElement } from "react";
 
-interface CommentsProps {
+interface ICommentsProps {
   lightTheme?: Theme;
   darkTheme?: Theme;
 }
@@ -11,48 +9,48 @@ interface CommentsProps {
 export default function Comments({
   lightTheme = "light",
   darkTheme = "dark",
-}: CommentsProps): ReactElement {
-  const [theme, setTheme] = useState(() => {
+}: ICommentsProps): ReactElement {
+  const [theme, setTheme] = useState<Theme>(() => {
     const currentTheme = localStorage.getItem("theme");
-    const browserTheme = window.matchMedia("(prefers-color-scheme: dark)")
-      .matches
-      ? "dark"
-      : "light";
-
-    return currentTheme || browserTheme;
+    return currentTheme !== null && currentTheme.includes("dark")
+      ? darkTheme
+      : lightTheme;
   });
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleChange = ({ matches }: MediaQueryListEvent) => {
-      setTheme(matches ? "dark" : "light");
+    const observer = new MutationObserver((mutations): void => {
+      mutations.forEach((mutation): void => {
+        if (mutation.target instanceof HTMLElement) {
+          const isDark = mutation.target.classList.contains("dark");
+          setTheme(isDark ? darkTheme : lightTheme);
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return (): void => {
+      observer.disconnect();
     };
-
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, []);
-
-  useEffect(() => {
-    const themeButton = document.querySelector("#theme-btn");
-    const themeButtonDesktop = document.querySelector("#theme-btn-desktop");
-
-    const handleClick = () => {
-      setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
-    };
-
-    themeButton?.addEventListener("click", handleClick);
-    themeButtonDesktop?.addEventListener("click", handleClick);
-
-    return () => {
-      themeButton?.removeEventListener("click", handleClick);
-      themeButtonDesktop?.removeEventListener("click", handleClick);
-    };
-  }, []);
+  }, [darkTheme, lightTheme]);
 
   return (
-    <div className="mt-8">
-      <Giscus theme={theme === "light" ? lightTheme : darkTheme} {...GISCUS} />
-    </div>
+    <Giscus
+      id="comments"
+      repo="pdrmtaheri/blog"
+      repoId="R_kgDOLNGQrw"
+      category="Announcements"
+      categoryId="DIC_kwDOLNGQr84CcvXE"
+      mapping="pathname"
+      reactionsEnabled="1"
+      emitMetadata="0"
+      inputPosition="top"
+      theme={theme}
+      lang="en"
+      loading="lazy"
+    />
   );
 }

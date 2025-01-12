@@ -1,6 +1,6 @@
 import type socialIcons from "@assets/socialIcons";
 
-export interface Site {
+export interface ISite {
   website: string;
   author: string;
   profile: string;

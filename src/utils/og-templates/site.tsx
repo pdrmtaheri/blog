@@ -2,8 +2,8 @@ import satori from "satori";
 import { SITE } from "@config";
 import loadGoogleFonts, { type FontOptions } from "../loadGoogleFont";
 
-export default async (): Promise<string> => {
-  return satori(
+export default async (): Promise<string> =>
+  satori(
     <div
       style={{
         background: "#fefbfb",
@@ -94,4 +94,3 @@ export default async (): Promise<string> => {
       )) as FontOptions[],
     },
   );
-};

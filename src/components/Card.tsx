@@ -2,7 +2,7 @@ import type { CollectionEntry } from "astro:content";
 import Datetime from "./Datetime";
 import type { ReactElement } from "react";
 
-interface Props {
+interface IProps {
   href: string;
   frontmatter: CollectionEntry<"blog">["data"];
   secHeading?: boolean;
@@ -12,7 +12,7 @@ export default function Card({
   href,
   frontmatter,
   secHeading = true,
-}: Props): ReactElement {
+}: IProps): ReactElement {
   const { title, pubDatetime, modDatetime, description, readingTime } =
     frontmatter;
   return (

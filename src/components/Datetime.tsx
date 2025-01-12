@@ -1,127 +1,178 @@
-import { LOCALE, SITE } from "@config";
+import { type ReactElement } from "react";
 import type { CollectionEntry } from "astro:content";
-import type { ReactElement } from "react";
 
-interface DatetimesProps {
+interface IDatetimesProps {
   pubDatetime: string | Date;
-  modDatetime: string | Date | undefined | null;
-}
-
-interface EditPostProps {
-  editPost?: CollectionEntry<"blog">["data"]["editPost"];
-  postId?: CollectionEntry<"blog">["id"];
-}
-
-interface Props extends DatetimesProps, EditPostProps {
+  modDatetime?: string | Date | null;
   size?: "sm" | "lg";
   className?: string;
   readingTime?: string;
 }
 
-export default function Datetime({
+interface IEditPostProps {
+  editPost?: CollectionEntry<"blog">["data"]["editPost"];
+  postId?: CollectionEntry<"blog">["id"];
+  size?: "sm" | "lg";
+  className?: string;
+}
+
+const DateIcon = ({ size }: { size: "sm" | "lg" }): ReactElement => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={`${
+      size === "sm" ? "scale-90" : "scale-100"
+    } inline-block h-6 w-6 min-w-[1.375rem] fill-skin-base`}
+    aria-hidden="true"
+  >
+    <path d="M7 11h2v2H7zm0 4h2v2H7zm4-4h2v2h-2zm0 4h2v2h-2zm4-4h2v2h-2zm0 4h2v2h-2z" />
+    <path d="M5 22h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2h-2V2h-2v2H9V2H7v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2zM19 8l.001 12H5V8h14z" />
+  </svg>
+);
+
+const TimeIcon = ({ size }: { size: "sm" | "lg" }): ReactElement => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={`${
+      size === "sm" ? "scale-90" : "scale-100"
+    } inline-block h-6 w-6 min-w-[1.375rem] fill-skin-base`}
+    aria-hidden="true"
+  >
+    <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z" />
+    <path d="M13 7h-2v5.414l3.293 3.293 1.414-1.414L13 11.586z" />
+  </svg>
+);
+
+const EditIcon = ({ size }: { size: "sm" | "lg" }): ReactElement => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={`${
+      size === "sm" ? "scale-90" : "scale-100"
+    } inline-block h-6 w-6 min-w-[1.375rem] fill-skin-base`}
+    aria-hidden="true"
+  >
+    <path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z" />
+    <path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z" />
+  </svg>
+);
+
+const ReadingTime = ({
+  readingTime,
+  size,
+}: {
+  readingTime: string;
+  size: "sm" | "lg";
+}): ReactElement => (
+  <span className="text-xs">
+    <TimeIcon size={size} />
+    {readingTime}
+  </span>
+);
+
+const FormattedDate = ({ datetime }: { datetime: Date }): ReactElement => (
+  <>
+    {datetime.toLocaleDateString("en-us", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    })}
+  </>
+);
+
+const getDisplayDate = (
+  pubDatetime: string | Date,
+  modDatetime?: string | Date | null,
+): Date => {
+  const pubDate = new Date(pubDatetime);
+  if (modDatetime === null || modDatetime === undefined) {
+    return pubDate;
+  }
+  const modDate = new Date(modDatetime);
+  return modDate > pubDate ? modDate : pubDate;
+};
+
+const Datetimes = ({
   pubDatetime,
   modDatetime,
-  size = "sm",
-  className = "",
-  editPost,
-  postId,
+  size,
+  className,
   readingTime,
-}: Props): ReactElement {
+}: IDatetimesProps): ReactElement => {
+  const displayDate = getDisplayDate(pubDatetime, modDatetime);
+  const effectiveSize = size ?? "sm";
+
   return (
     <div
-      className={`flex items-center space-x-2 opacity-80 ${className}`.trim()}
+      className={`flex items-center space-x-2 opacity-80 ${className ?? ""}`}
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className={`${
-          size === "sm" ? "scale-90" : "scale-100"
-        } inline-block h-6 w-6 min-w-[1.375rem] fill-skin-base`}
-        aria-hidden="true"
-      >
-        <path d="M7 11h2v2H7zm0 4h2v2H7zm4-4h2v2h-2zm0 4h2v2h-2zm4-4h2v2h-2zm0 4h2v2h-2z"></path>
-        <path d="M5 22h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2h-2V2h-2v2H9V2H7v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2zM19 8l.001 12H5V8h14z"></path>
-      </svg>
-      {modDatetime && modDatetime > pubDatetime ? (
-        <span className={`italic ${size === "sm" ? "text-sm" : "text-base"}`}>
-          Updated:
-        </span>
-      ) : (
-        <span className="sr-only">Published:</span>
-      )}
-      <span className={`italic ${size === "sm" ? "text-sm" : "text-base"}`}>
-        <FormattedDatetime
-          pubDatetime={pubDatetime}
-          modDatetime={modDatetime}
-        />
-        {readingTime && <span className="ml-2">({readingTime})</span>}
-      </span>
-      {editPost?.disabled ? null : (
-        <EditPost editPost={editPost} postId={postId} />
+      <DateIcon size={effectiveSize} />
+      <FormattedDate datetime={displayDate} />
+      {readingTime !== undefined && readingTime !== "" && (
+        <ReadingTime readingTime={readingTime} size={effectiveSize} />
       )}
     </div>
   );
-}
+};
 
-const FormattedDatetime = ({
-  pubDatetime,
-  modDatetime,
-}: DatetimesProps): ReactElement => {
-  const myDatetime = new Date(
-    modDatetime && modDatetime > pubDatetime ? modDatetime : pubDatetime,
-  );
+const EditPost = ({
+  editPost,
+  postId,
+  size,
+  className,
+}: IEditPostProps): ReactElement | null => {
+  const editPostUrl = editPost?.url ?? "";
+  if (
+    editPost === undefined ||
+    editPost.disabled === true ||
+    editPostUrl === ""
+  ) {
+    return null;
+  }
 
-  const date = myDatetime.toLocaleDateString(LOCALE.langTag, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-
-  const time = myDatetime.toLocaleTimeString(LOCALE.langTag, {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const editHref =
+    editPostUrl +
+    (editPost.appendFilePath === true && postId !== undefined
+      ? postId.replace(/\d{4}-\d{2}-\d{2}-/, "")
+      : "");
 
   return (
-    <>
-      <time dateTime={myDatetime.toISOString()}>{date}</time>
-      <span aria-hidden="true"> | </span>
-      <span className="sr-only">&nbsp;at&nbsp;</span>
-      <span className="text-nowrap">{time}</span>
-    </>
+    <div className={`opacity-80 ${className ?? ""}`}>
+      <a
+        className="inline-flex items-center gap-1 underline underline-offset-4 hover:text-skin-accent"
+        href={editHref}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {editPost.text ?? "Edit post"}
+        <EditIcon size={size ?? "sm"} />
+      </a>
+    </div>
   );
 };
 
-const EditPost = ({ editPost, postId }: EditPostProps): ReactElement | null => {
-  let editPostUrl = editPost?.url ?? SITE?.editPost?.url ?? "";
-  const showEditPost = !editPost?.disabled && editPostUrl.length > 0;
-  const appendFilePath =
-    editPost?.appendFilePath ?? SITE?.editPost?.appendFilePath ?? false;
-  if (appendFilePath && postId) {
-    editPostUrl += `/${postId}`;
-  }
-  const editPostText = editPost?.text ?? SITE?.editPost?.text ?? "Edit";
-
-  return showEditPost ? (
-    <>
-      <span aria-hidden="true"> | </span>
-      <a
-        className="space-x-1.5 hover:opacity-75"
-        href={editPostUrl}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="icon icon-tabler icons-tabler-outline icon-tabler-edit inline-block !scale-90 fill-skin-base"
-          aria-hidden="true"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-          <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
-          <path d="M16 5l3 3" />
-        </svg>
-        <span className="text-base italic">{editPostText}</span>
-      </a>
-    </>
-  ) : null;
-};
+export default function Datetime({
+  pubDatetime,
+  modDatetime,
+  editPost,
+  postId,
+  size = "sm",
+  className,
+  readingTime,
+}: IDatetimesProps & IEditPostProps): ReactElement {
+  return (
+    <div className="flex flex-col gap-2">
+      <Datetimes
+        pubDatetime={pubDatetime}
+        modDatetime={modDatetime}
+        size={size}
+        className={className}
+        readingTime={readingTime}
+      />
+      <EditPost
+        editPost={editPost}
+        postId={postId}
+        size={size}
+        className={className}
+      />
+    </div>
+  );
+}
