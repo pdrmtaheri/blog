@@ -7,6 +7,8 @@ import sitemap from "@astrojs/sitemap";
 import partytown from "@astrojs/partytown";
 import { SITE } from "./src/config";
 
+import compress from "astro-compress";
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
@@ -29,6 +31,7 @@ export default defineConfig({
         ],
       },
     }),
+    compress(),
   ],
   markdown: {
     remarkPlugins: [
