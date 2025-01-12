@@ -39,6 +39,6 @@ export default [
     },
   },
   {
-    ignores: ["dist/**", ".astro"],
+    ignores: ["dist/**", ".astro", "src/components/PostHog.astro"],
   },
 ];

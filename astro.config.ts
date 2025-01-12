@@ -21,7 +21,12 @@ export default defineConfig({
     }),
     partytown({
       config: {
-        forward: ["posthog.capture", "posthog.identify", "posthog.init", "posthog"],
+        forward: [
+          "posthog.capture",
+          "posthog.identify",
+          "posthog.init",
+          "posthog",
+        ],
       },
     }),
   ],
