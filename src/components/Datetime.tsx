@@ -63,9 +63,9 @@ const ReadingTime = ({
   readingTime: string;
   size: "lg" | "sm";
 }): ReactElement => (
-  <span className="text-xs">
+  <span className="inline-flex items-center gap-1">
     <TimeIcon size={size} />
-    {readingTime}
+    <span className="text-sm">{readingTime}</span>
   </span>
 );
 

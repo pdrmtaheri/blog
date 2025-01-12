@@ -77,13 +77,31 @@ const { activeNav } = Astro.props;
           </button>
           <ul id="menu-items" class="display-none sm:flex">
             <li>
-              <a href="/posts/" class={activeNav === "posts" ? "active" : ""}> Posts </a>
+              <a
+                href="/posts/"
+                class={activeNav === "posts" ? "active" : ""}
+                aria-label="View all posts"
+              >
+                Posts
+              </a>
             </li>
             <li>
-              <a href="/tags/" class={activeNav === "tags" ? "active" : ""}> Tags </a>
+              <a
+                href="/tags/"
+                class={activeNav === "tags" ? "active" : ""}
+                aria-label="View all tags"
+              >
+                Tags
+              </a>
             </li>
             <li>
-              <a href="/about/" class={activeNav === "about" ? "active" : ""}> About </a>
+              <a
+                href="/about/"
+                class={activeNav === "about" ? "active" : ""}
+                aria-label="About this site"
+              >
+                About
+              </a>
             </li>
             {
               SITE.showArchives && (
