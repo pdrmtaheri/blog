@@ -1,17 +1,8 @@
-  /*
+/*
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   X-XSS-Protection: 1; mode=block
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
   Referrer-Policy: strict-origin-when-cross-origin
-  Content-Security-Policy:
-    default-src 'self';
-    script-src 'self' 'unsafe-inline' https://app.posthog.com https://*.posthog.com;
-    style-src 'self' 'unsafe-inline';
-    img-src 'self' data: https://*.posthog.com;
-    connect-src 'self' https://app.posthog.com https://*.posthog.com;
-    object-src 'none';
-    base-uri 'self';
-    frame-ancestors 'none';
-    worker-src 'self' blob:;
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://*.posthog.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.posthog.com; connect-src 'self' https://*.posthog.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content
