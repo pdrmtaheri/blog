@@ -1,6 +1,6 @@
 import type socialIcons from "@assets/socialIcons";
 
-export type Site = {
+export interface Site {
   website: string;
   author: string;
   profile: string;
@@ -17,7 +17,7 @@ export type Site = {
     text?: string;
     appendFilePath?: boolean;
   };
-};
+}
 
 export type SocialObjects = {
   name: keyof typeof socialIcons;

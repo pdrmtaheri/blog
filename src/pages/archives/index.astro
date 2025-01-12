@@ -6,8 +6,8 @@ import Header from "@components/Header.astro";
 import { SITE } from "@config";
 import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
-import getPostsByGroupCondition from "@utils/getPostsByGroupCondition";
-import getPostsWithRT from "@utils/getPostsWithRT";
+import { getPostsByGroupCondition } from "@utils/getPostsByGroupCondition";
+import { getPostsWithRT } from "@utils/getPostsWithRT";
 
 // Redirect to 404 page if `showArchives` config is false
 if (!SITE.showArchives) {

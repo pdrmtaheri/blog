@@ -1,5 +1,6 @@
 import { LOCALE, SITE } from "@config";
 import type { CollectionEntry } from "astro:content";
+import type { ReactElement } from "react";
 
 interface DatetimesProps {
   pubDatetime: string | Date;
@@ -25,7 +26,7 @@ export default function Datetime({
   editPost,
   postId,
   readingTime,
-}: Props) {
+}: Props): ReactElement {
   return (
     <div
       className={`flex items-center space-x-2 opacity-80 ${className}`.trim()}
@@ -61,7 +62,10 @@ export default function Datetime({
   );
 }
 
-const FormattedDatetime = ({ pubDatetime, modDatetime }: DatetimesProps) => {
+const FormattedDatetime = ({
+  pubDatetime,
+  modDatetime,
+}: DatetimesProps): ReactElement => {
   const myDatetime = new Date(
     modDatetime && modDatetime > pubDatetime ? modDatetime : pubDatetime,
   );
@@ -87,7 +91,7 @@ const FormattedDatetime = ({ pubDatetime, modDatetime }: DatetimesProps) => {
   );
 };
 
-const EditPost = ({ editPost, postId }: EditPostProps) => {
+const EditPost = ({ editPost, postId }: EditPostProps): ReactElement | null => {
   let editPostUrl = editPost?.url ?? SITE?.editPost?.url ?? "";
   const showEditPost = !editPost?.disabled && editPostUrl.length > 0;
   const appendFilePath =
@@ -97,29 +101,27 @@ const EditPost = ({ editPost, postId }: EditPostProps) => {
   }
   const editPostText = editPost?.text ?? SITE?.editPost?.text ?? "Edit";
 
-  return (
-    showEditPost && (
-      <>
-        <span aria-hidden="true"> | </span>
-        <a
-          className="space-x-1.5 hover:opacity-75"
-          href={editPostUrl}
-          rel="noopener noreferrer"
-          target="_blank"
+  return showEditPost ? (
+    <>
+      <span aria-hidden="true"> | </span>
+      <a
+        className="space-x-1.5 hover:opacity-75"
+        href={editPostUrl}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="icon icon-tabler icons-tabler-outline icon-tabler-edit inline-block !scale-90 fill-skin-base"
+          aria-hidden="true"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="icon icon-tabler icons-tabler-outline icon-tabler-edit inline-block !scale-90 fill-skin-base"
-            aria-hidden="true"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
-            <path d="M16 5l3 3" />
-          </svg>
-          <span className="text-base italic">{editPostText}</span>
-        </a>
-      </>
-    )
-  );
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+          <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+          <path d="M16 5l3 3" />
+        </svg>
+        <span className="text-base italic">{editPostText}</span>
+      </a>
+    </>
+  ) : null;
 };

@@ -15,6 +15,34 @@ export default [
         ...globals.node,
       },
     },
+    rules: {
+      // Error prevention
+      "no-console": ["warn"],
+      "no-debugger": ["error"],
+      "no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+      "no-undef": ["error"],
+
+      // Best practices
+      eqeqeq: ["error", "always"],
+      "no-var": ["error"],
+      "prefer-const": ["error"],
+      "no-multiple-empty-lines": ["error", { max: 1, maxEOF: 0 }],
+
+      // Style consistency
+      semi: ["error", "always"],
+      quotes: ["error", "double"],
+      indent: ["error", 2],
+      "comma-dangle": ["error", "always-multiline"],
+
+      // TypeScript specific
+      "@typescript-eslint/explicit-module-boundary-types": ["warn"],
+      "@typescript-eslint/no-explicit-any": ["warn"],
+      "@typescript-eslint/no-unused-vars": ["error"],
+      "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+    },
   },
   {
     files: ["*.astro"],

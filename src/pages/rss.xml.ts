@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import getSortedPosts from "@utils/getSortedPosts";
 import { SITE } from "@config";
 
-export async function GET() {
+export async function GET(): Promise<Response> {
   const posts = await getCollection("blog");
   const sortedPosts = await getSortedPosts(posts);
   return rss({
