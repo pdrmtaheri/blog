@@ -14,6 +14,7 @@ interface EditPostProps {
 interface Props extends DatetimesProps, EditPostProps {
   size?: "sm" | "lg";
   className?: string;
+  readingTime?: string;
 }
 
 export default function Datetime({
@@ -23,6 +24,7 @@ export default function Datetime({
   className = "",
   editPost,
   postId,
+  readingTime,
 }: Props) {
   return (
     <div
@@ -50,8 +52,11 @@ export default function Datetime({
           pubDatetime={pubDatetime}
           modDatetime={modDatetime}
         />
-        {size === "lg" && <EditPost editPost={editPost} postId={postId} />}
+        {readingTime && <span className="ml-2">({readingTime})</span>}
       </span>
+      {editPost?.disabled ? null : (
+        <EditPost editPost={editPost} postId={postId} />
+      )}
     </div>
   );
 }

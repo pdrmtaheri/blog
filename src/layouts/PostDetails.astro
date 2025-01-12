@@ -27,6 +27,7 @@ const {
   modDatetime,
   tags,
   editPost,
+  readingTime,
 } = post.data;
 
 const { Content } = await post.render();
@@ -86,6 +87,7 @@ const nextPost =
       modDatetime={modDatetime}
       size="lg"
       className="my-2"
+      readingTime={readingTime}
       editPost={editPost}
       postId={post.id}
     />

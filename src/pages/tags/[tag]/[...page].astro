@@ -9,20 +9,22 @@ import { SITE } from "@config";
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   const posts = await getCollection("blog");
   const tags = getUniqueTags(posts);
+  const paths = [];
 
-  return tags.flatMap(({ tag, tagName }) => {
-    const tagPosts = getPostsByTag(posts, tag);
-
-    return paginate(tagPosts, {
+  for (const { tag, tagName } of tags) {
+    const tagPosts = await getPostsByTag(posts, tag);
+    const paginatedPosts = paginate(tagPosts, {
       params: { tag },
       props: { tagName },
       pageSize: SITE.postPerPage,
     });
-  });
+    paths.push(...paginatedPosts);
+  }
+
+  return paths;
 }
 
-const params = Astro.params;
-const { tag } = params;
+const { tag } = Astro.params;
 const { page, tagName } = Astro.props;
 
 export const prerender = true;
