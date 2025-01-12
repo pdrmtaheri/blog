@@ -1,32 +1,34 @@
+import tseslintPlugin from "@typescript-eslint/eslint-plugin";
 import tseslint from "typescript-eslint";
-import eslint from "@eslint/js";
-import react from "eslint-plugin-react";
-import reactHooks from "eslint-plugin-react-hooks";
-import astro from "eslint-plugin-astro";
-import jsxA11y from "eslint-plugin-jsx-a11y";
+import tsParser from "@typescript-eslint/parser";
+import js from "@eslint/js";
+import reactPlugin from "eslint-plugin-react";
+import reactHooksPlugin from "eslint-plugin-react-hooks";
+import astroPlugin from "eslint-plugin-astro";
+import jsxA11yPlugin from "eslint-plugin-jsx-a11y";
 import astroParser from "astro-eslint-parser";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const baseRules = {};
 
 export default [
   {
-    ignores: [
-      "dist/**/*",
-      "node_modules/**/*",
-      ".astro/**/*",
-    ],
+    ignores: ["dist/**/*", "node_modules/**/*", ".astro/**/*"],
   },
   {
     files: ["**/*.js"],
-    ...eslint.configs.recommended,
+    ...js.configs.recommended,
     rules: baseRules,
   },
   {
     files: ["**/*.{jsx,tsx}"],
     plugins: {
-      react,
-      "react-hooks": reactHooks,
-      "jsx-a11y": jsxA11y,
+      react: reactPlugin,
+      "react-hooks": reactHooksPlugin,
+      "jsx-a11y": jsxA11yPlugin,
     },
     settings: {
       react: {
@@ -34,8 +36,8 @@ export default [
       },
     },
     rules: {
-      ...react.configs.recommended.rules,
-      ...reactHooks.configs.recommended.rules,
+      ...reactPlugin.configs.recommended.rules,
+      ...reactHooksPlugin.configs.recommended.rules,
       ...baseRules,
       "react/react-in-jsx-scope": "off",
     },
@@ -43,14 +45,14 @@ export default [
   {
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
-      parser: tseslint.parser,
+      parser: tsParser,
       parserOptions: {
         project: true,
-        tsconfigRootDir: import.meta.dirname,
+        tsconfigRootDir: __dirname,
       },
     },
     plugins: {
-      "@typescript-eslint": tseslint.plugin,
+      "@typescript-eslint": tseslintPlugin,
     },
     rules: {
       ...tseslint.configs.strictTypeChecked.rules,
@@ -67,8 +69,8 @@ export default [
           prefix: ["I"],
           filter: {
             regex: "^(Props|Render|RenderResult|RenderedContent)$",
-            match: false
-          }
+            match: false,
+          },
         },
       ],
     },
@@ -78,21 +80,21 @@ export default [
     languageOptions: {
       parser: astroParser,
       parserOptions: {
-        parser: tseslint.parser,
+        parser: tsParser,
         extraFileExtensions: [".astro"],
         project: true,
-        tsconfigRootDir: import.meta.dirname,
+        tsconfigRootDir: __dirname,
       },
     },
     plugins: {
-      astro,
-      "@typescript-eslint": tseslint.plugin,
+      astro: astroPlugin,
+      "@typescript-eslint": tseslintPlugin,
     },
     rules: {
       ...tseslint.configs.strictTypeChecked.rules,
       ...tseslint.configs.stylisticTypeChecked.rules,
       ...baseRules,
-      ...astro.configs.all.rules,
+      ...astroPlugin.configs.all.rules,
       "@typescript-eslint/naming-convention": [
         "error",
         {
@@ -101,8 +103,8 @@ export default [
           prefix: ["I"],
           filter: {
             regex: "^(Props|StringTitleProp|ArrayTitleProp)$",
-            match: false
-          }
+            match: false,
+          },
         },
       ],
     },

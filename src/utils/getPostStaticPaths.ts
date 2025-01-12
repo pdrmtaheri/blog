@@ -15,8 +15,8 @@ export const getStaticPaths = async (): Promise<IStaticPath[]> => {
   const filteredPosts = posts.filter(postFilter);
   const sortedPosts = await getSortedPosts(filteredPosts);
 
-  return filteredPosts.map(post => ({
+  return filteredPosts.map((post) => ({
     params: { slug: post.slug },
     props: { post, sortedPosts },
   }));
-}; 
+};

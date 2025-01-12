@@ -39,7 +39,7 @@ async function loadGoogleFont(
 async function loadGoogleFonts(
   text: string,
 ): Promise<
-  Array<{ name: string; data: ArrayBuffer; weight: number; style: string }>
+  { name: string; data: ArrayBuffer; weight: number; style: string }[]
 > {
   const fontsConfig = [
     {

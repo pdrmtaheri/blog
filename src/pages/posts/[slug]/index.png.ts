@@ -8,14 +8,14 @@ interface IStaticPath {
 
 export const getStaticPaths = async (): Promise<IStaticPath[]> => {
   const posts = await getCollection("blog");
-  return posts.map(post => ({
+  return posts.map((post) => ({
     params: { slug: post.slug },
   }));
 };
 
 export const GET: APIRoute = async ({ params }) => {
   const posts = await getCollection("blog");
-  const matchingPost = posts.find(post => post.slug === params.slug);
+  const matchingPost = posts.find((post) => post.slug === params.slug);
 
   if (matchingPost === undefined) {
     return new Response("Post not found", { status: 404 });

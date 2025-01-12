@@ -10,7 +10,9 @@ interface ITagStaticPathParams {
 
 type StaticPathReturn = ReturnType<PaginateFunction>;
 
-export const getStaticPaths = async ({ paginate }: ITagStaticPathParams): Promise<StaticPathReturn> => {
+export const getStaticPaths = async ({
+  paginate,
+}: ITagStaticPathParams): Promise<StaticPathReturn> => {
   const posts = await getCollection("blog", ({ data }) => data.draft === false);
   const postsWithRT = await getPostsWithRT(posts);
   const allPosts = await getCollection("blog");
@@ -18,10 +20,10 @@ export const getStaticPaths = async ({ paginate }: ITagStaticPathParams): Promis
   const tags = getUniqueTags(allPosts);
 
   return tags.flatMap(({ tag }) => {
-    const tagPosts = postsWithRT.filter(post => {
+    const tagPosts = postsWithRT.filter((post) => {
       const postTags = post.data.tags;
       if (!Array.isArray(postTags)) return false;
-      return postTags.some(t => t.toLowerCase() === tag.toLowerCase());
+      return postTags.some((t) => t.toLowerCase() === tag.toLowerCase());
     });
 
     return paginate(tagPosts, {

@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import mdx from "@astrojs/mdx";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import remarkToc from "remark-toc";
@@ -7,23 +6,24 @@ import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
 import { SITE } from "./src/config";
 import type { Node } from "unist";
+import compress from "astro-compress";
 
 interface IHeadingNode extends Node {
   type: "heading";
   depth: number;
-  children: Array<{ value: string }>;
+  children: { value: string }[];
 }
 
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
   integrations: [
-    mdx(),
     tailwind({
       applyBaseStyles: false,
     }),
     react(),
     sitemap(),
+    compress(),
   ],
   markdown: {
     remarkPlugins: [
