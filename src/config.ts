@@ -1,7 +1,7 @@
+import type { ISite, SocialObjects } from "./types";
 import type { GiscusProps } from "@giscus/react";
-import type { Site, SocialObjects } from "./types";
 
-export const SITE: Site = {
+export const SITE: ISite = {
   website: "https://pedram.blog/",
   author: "Pedram Taheri",
   profile: "https://satnaing.dev/",

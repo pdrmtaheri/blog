@@ -1,6 +1,7 @@
-import type { APIRoute } from "astro";
-import { getCollection } from "astro:content";
 import { generateOgImageForPost } from "@utils/generateOgImages";
+import { getCollection } from "astro:content";
+
+import type { APIRoute } from "astro";
 
 interface IStaticPath {
   params: { slug: string };

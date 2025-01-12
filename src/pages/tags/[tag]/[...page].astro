@@ -1,8 +1,9 @@
 ---
-import { type CollectionEntry } from "astro:content";
 import TagPosts from "@layouts/TagPosts.astro";
-import type { Page } from "astro";
 import { getStaticPaths } from "@utils/getTagStaticPaths";
+import { type CollectionEntry } from "astro:content";
+
+import type { Page } from "astro";
 
 interface Props {
   page: Page<CollectionEntry<"blog">>;
@@ -14,8 +15,4 @@ export { getStaticPaths };
 export const prerender = true;
 ---
 
-<TagPosts
-  page={Astro.props.page}
-  tag={Astro.props.tag}
-  tagName={Astro.props.tagName}
-/>
+<TagPosts page={Astro.props.page} tag={Astro.props.tag} tagName={Astro.props.tagName} />

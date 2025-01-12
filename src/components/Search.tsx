@@ -1,13 +1,7 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-  useMemo,
-  type ReactElement,
-  type ChangeEvent,
-} from "react";
-import type { CollectionEntry } from "astro:content";
 import Fuse from "fuse.js";
+import { useEffect, useRef, useState, useMemo, type ReactElement, type ChangeEvent } from "react";
+
+import type { CollectionEntry } from "astro:content";
 
 interface IProps {
   searchList: CollectionEntry<"blog">[];
@@ -23,24 +17,17 @@ interface ISearchResultsProps {
   searchTerm: string;
 }
 
-function SearchResults({
-  searchResults,
-  searchTerm,
-}: ISearchResultsProps): ReactElement {
+function SearchResults({ searchResults, searchTerm }: ISearchResultsProps): ReactElement {
   return (
     <div className="mt-8">
       <div className="mb-4 text-2xl font-semibold">
-        Found {searchResults.length}{" "}
-        {searchResults.length === 1 ? "result" : "results"} for &quot;
+        Found {searchResults.length} {searchResults.length === 1 ? "result" : "results"} for &quot;
         {searchTerm}&quot;
       </div>
       <ul>
         {searchResults.map(({ item, refIndex }) => (
           <li key={`${refIndex}-${item.id}`} className="mb-4">
-            <a
-              href={`/posts/${item.slug}`}
-              className="decoration-dashed hover:underline"
-            >
+            <a href={`/posts/${item.slug}`} className="decoration-dashed hover:underline">
               <h3 className="text-lg font-medium">{item.data.title}</h3>
             </a>
             <p>{item.data.description}</p>
@@ -54,9 +41,7 @@ function SearchResults({
 export default function Search({ searchList }: IProps): ReactElement {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputVal, setInputVal] = useState<string>("");
-  const [searchResults, setSearchResults] = useState<ISearchResult[] | null>(
-    null,
-  );
+  const [searchResults, setSearchResults] = useState<ISearchResult[] | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputVal(e.target.value);
@@ -70,7 +55,7 @@ export default function Search({ searchList }: IProps): ReactElement {
         minMatchCharLength: 2,
         threshold: 0.5,
       }),
-    [searchList],
+    [searchList]
   );
 
   useEffect(() => {

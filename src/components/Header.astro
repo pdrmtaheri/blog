@@ -1,5 +1,6 @@
 ---
 import { LOGO_IMAGE, SITE } from "@config";
+
 import Hr from "./Hr.astro";
 import LinkButton from "./LinkButton.astro";
 
@@ -76,19 +77,13 @@ const { activeNav } = Astro.props;
           </button>
           <ul id="menu-items" class="display-none sm:flex">
             <li>
-              <a href="/posts/" class={activeNav === "posts" ? "active" : ""}>
-                Posts
-              </a>
+              <a href="/posts/" class={activeNav === "posts" ? "active" : ""}> Posts </a>
             </li>
             <li>
-              <a href="/tags/" class={activeNav === "tags" ? "active" : ""}>
-                Tags
-              </a>
+              <a href="/tags/" class={activeNav === "tags" ? "active" : ""}> Tags </a>
             </li>
             <li>
-              <a href="/about/" class={activeNav === "about" ? "active" : ""}>
-                About
-              </a>
+              <a href="/about/" class={activeNav === "about" ? "active" : ""}> About </a>
             </li>
             {
               SITE.showArchives && (
@@ -113,12 +108,7 @@ const { activeNav } = Astro.props;
                         <path d="M10 12l4 0" />
                       </>
                     </svg>
-                    <span
-                      class:list={[
-                        "sm:sr-only",
-                        activeNav === "archives" && "active",
-                      ]}
-                    >
+                    <span class:list={["sm:sr-only", activeNav === "archives" && "active"]}>
                       Archives
                     </span>
                   </LinkButton>
@@ -134,9 +124,7 @@ const { activeNav } = Astro.props;
                 ariaLabel="search"
                 title="Search"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="scale-125 sm:scale-100"
+                <svg xmlns="http://www.w3.org/2000/svg" class="scale-125 sm:scale-100"
                   ><path
                     d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"
                   ></path>
@@ -291,10 +279,7 @@ const { activeNav } = Astro.props;
   function updateNavHeight() {
     const header = document.querySelector("header");
     if (header) {
-      document.documentElement.style.setProperty(
-        "--header-height",
-        `${header.offsetHeight}px`,
-      );
+      document.documentElement.style.setProperty("--header-height", `${header.offsetHeight}px`);
     }
   }
 
@@ -307,10 +292,7 @@ const { activeNav } = Astro.props;
       const menuExpanded = menuBtn.getAttribute("aria-expanded") === "true";
       menuIcon?.classList.toggle("is-active");
       menuBtn.setAttribute("aria-expanded", menuExpanded ? "false" : "true");
-      menuBtn.setAttribute(
-        "aria-label",
-        menuExpanded ? "Open Menu" : "Close Menu",
-      );
+      menuBtn.setAttribute("aria-label", menuExpanded ? "Open Menu" : "Close Menu");
       menuItems?.classList.toggle("display-none");
 
       // Update position immediately when opening
@@ -327,8 +309,7 @@ const { activeNav } = Astro.props;
     const navButtons = document.querySelectorAll("nav button");
     const themeBtn = document.querySelector("#theme-btn");
     const menuItems = document.querySelector("#menu-items");
-    const isMenuOpen =
-      menuItems && !menuItems.classList.contains("display-none");
+    const isMenuOpen = menuItems && !menuItems.classList.contains("display-none");
 
     // Add hysteresis to prevent jiggling
     if (topNavWrap?.classList.contains("shrunk")) {
@@ -374,14 +355,8 @@ const { activeNav } = Astro.props;
   function updateScrollProgress() {
     const progressBar = document.querySelector(".scroll-progress");
     if (progressBar instanceof HTMLElement) {
-      const windowHeight = Math.max(
-        1,
-        document.documentElement.scrollHeight - window.innerHeight,
-      );
-      const progress = Math.min(
-        100,
-        Math.max(0, (window.scrollY / windowHeight) * 100),
-      );
+      const windowHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const progress = Math.min(100, Math.max(0, (window.scrollY / windowHeight) * 100));
       progressBar.style.width = `${progress}%`;
     }
   }

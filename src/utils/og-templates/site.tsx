@@ -1,9 +1,11 @@
-import satori from "satori";
 import { SITE } from "@config";
-import loadGoogleFonts, { type FontOptions } from "../loadGoogleFont";
+import satori, { type Font } from "satori";
+import loadGoogleFonts from "../loadGoogleFont";
 
-export default async (): Promise<string> =>
-  satori(
+export default async function generateOgImage(): Promise<string> {
+  const fonts = await loadGoogleFonts(SITE.title + SITE.desc + SITE.website);
+
+  return await satori(
     <div
       style={{
         background: "#fefbfb",
@@ -53,34 +55,27 @@ export default async (): Promise<string> =>
             height: "90%",
           }}
         >
-          <div
+          <p
             style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "90%",
-              maxHeight: "90%",
+              fontSize: 72,
+              fontWeight: "bold",
+              maxHeight: "84%",
               overflow: "hidden",
-              textAlign: "center",
             }}
           >
-            <p style={{ fontSize: 72, fontWeight: "bold" }}>{SITE.title}</p>
-            <p style={{ fontSize: 28 }}>{SITE.desc}</p>
-          </div>
-
+            {SITE.title}
+          </p>
           <div
             style={{
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: "space-between",
               width: "100%",
               marginBottom: "8px",
               fontSize: 28,
             }}
           >
-            <span style={{ overflow: "hidden", fontWeight: "bold" }}>
-              {new URL(SITE.website).hostname}
-            </span>
+            <span>{SITE.desc}</span>
+            <span style={{ overflow: "hidden" }}>{SITE.website}</span>
           </div>
         </div>
       </div>
@@ -89,8 +84,7 @@ export default async (): Promise<string> =>
       width: 1200,
       height: 630,
       embedFont: true,
-      fonts: (await loadGoogleFonts(
-        SITE.title + SITE.desc + SITE.website,
-      )) as FontOptions[],
-    },
+      fonts: fonts as Font[],
+    }
   );
+}

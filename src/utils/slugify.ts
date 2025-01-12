@@ -1,6 +1,6 @@
 import kebabCase from "lodash.kebabcase";
 
-const slugifyStr = (str: string | undefined | null): string => {
+const slugifyStr = (str: string | null | undefined): string => {
   if (str === undefined || str === null || str === "") {
     return "";
   }

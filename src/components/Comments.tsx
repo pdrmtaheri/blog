@@ -1,5 +1,5 @@
-import { useEffect, useState, type ReactElement } from "react";
 import Giscus, { type Theme } from "@giscus/react";
+import { useEffect, useState, type ReactElement } from "react";
 
 interface ICommentsProps {
   lightTheme?: Theme;
@@ -12,9 +12,7 @@ export default function Comments({
 }: ICommentsProps): ReactElement {
   const [theme, setTheme] = useState<Theme>(() => {
     const currentTheme = localStorage.getItem("theme");
-    return currentTheme !== null && currentTheme.includes("dark")
-      ? darkTheme
-      : lightTheme;
+    return currentTheme !== null && currentTheme.includes("dark") ? darkTheme : lightTheme;
   });
 
   useEffect(() => {

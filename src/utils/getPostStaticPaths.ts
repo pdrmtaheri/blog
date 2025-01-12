@@ -1,6 +1,7 @@
 import { type CollectionEntry, getCollection } from "astro:content";
-import postFilter from "./postFilter";
+
 import getSortedPosts from "./getSortedPosts";
+import postFilter from "./postFilter";
 
 interface IStaticPath {
   params: { slug: string };

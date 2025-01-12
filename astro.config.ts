@@ -1,12 +1,14 @@
-import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
-import remarkToc from "remark-toc";
-import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
-import { SITE } from "./src/config";
-import type { Node } from "unist";
+import tailwind from "@astrojs/tailwind";
+import { defineConfig } from "astro/config";
 import compress from "astro-compress";
+import remarkCollapse from "remark-collapse";
+import remarkToc from "remark-toc";
+
+import { SITE } from "./src/config";
+
+import type { Node } from "unist";
 
 interface IHeadingNode extends Node {
   type: "heading";

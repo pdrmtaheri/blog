@@ -1,9 +1,10 @@
 ---
 import { SITE } from "@config";
 import Posts from "@layouts/Posts.astro";
-import type { GetStaticPaths } from "astro";
-import { getCollection } from "astro:content";
 import getSortedPosts from "@utils/getSortedPosts";
+import { getCollection } from "astro:content";
+
+import type { GetStaticPaths } from "astro";
 
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = await getCollection("blog", ({ data }) => !data.draft);

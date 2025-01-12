@@ -1,86 +1,92 @@
 ---
-import { getCollection } from "astro:content";
 import Card from "@components/Card";
 import Footer from "@components/Footer.astro";
 import Header from "@components/Header.astro";
 import { SITE } from "@config";
 import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
-import { getPostsByGroupCondition } from "@utils/getPostsByGroupCondition";
 import { getPostsWithRT } from "@utils/getPostsWithRT";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 
-// Redirect to 404 page if `showArchives` config is false
-if (!SITE.showArchives) {
-  return Astro.redirect("/404");
-}
+const blogEntries = await getCollection("blog", ({ data }) => !data.draft);
+const posts = await getPostsWithRT(blogEntries);
 
-const posts = await getCollection("blog", ({ data }) => !data.draft);
-const postsWithRT = await getPostsWithRT(posts);
-
-const MonthMap: Record<string, string> = {
-  "1": "January",
-  "2": "February",
-  "3": "March",
-  "4": "April",
-  "5": "May",
-  "6": "June",
-  "7": "July",
-  "8": "August",
-  "9": "September",
-  "10": "October",
-  "11": "November",
-  "12": "December",
+type PostYear = {
+  year: number;
+  posts: Record<string, CollectionEntry<"blog">[]>;
 };
+
+// Group posts by year
+const yearGroups = posts.reduce(
+  (acc, post) => {
+    const year = post.data.pubDatetime.getFullYear().toString();
+    if (!acc[year]) acc[year] = [];
+    acc[year].push(post);
+    return acc;
+  },
+  {} as Record<string, CollectionEntry<"blog">[]>
+);
+
+// Group posts by month within each year
+const monthGroups: PostYear[] = Object.entries(yearGroups).map(([year, yearPosts]) => {
+  const monthPosts = yearPosts.reduce(
+    (acc, post) => {
+      const month = (post.data.pubDatetime.getMonth() + 1).toString();
+      if (!acc[month]) acc[month] = [];
+      acc[month].push(post);
+      return acc;
+    },
+    {} as Record<string, CollectionEntry<"blog">[]>
+  );
+
+  return {
+    year: parseInt(year),
+    posts: monthPosts,
+  };
+});
 ---
 
 <Layout title={`Archives | ${SITE.title}`}>
   <Header activeNav="archives" />
-  <Main pageTitle="Archives" pageDesc="All the articles I've archived.">
-    {
-      Object.entries(
-        getPostsByGroupCondition(postsWithRT, (post) =>
-          post.data.pubDatetime.getFullYear(),
-        ),
-      )
-        .sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))
-        .map(([year, yearGroup]) => (
-          <div>
-            <span class="text-2xl font-bold">{year}</span>
-            <sup class="text-sm">{yearGroup.length}</sup>
-            {Object.entries(
-              getPostsByGroupCondition(
-                yearGroup,
-                (post) => post.data.pubDatetime.getMonth() + 1,
-              ),
-            )
-              .sort(([monthA], [monthB]) => Number(monthB) - Number(monthA))
-              .map(([month, monthGroup]) => (
-                <div class="flex flex-col sm:flex-row">
-                  <div class="mt-6 min-w-36 text-lg sm:my-6">
-                    <span class="font-bold">{MonthMap[month]}</span>
-                    <sup class="text-xs">{monthGroup.length}</sup>
-                  </div>
-                  <ul>
-                    {monthGroup
-                      .sort(
-                        (a, b) =>
-                          Math.floor(
-                            new Date(b.data.pubDatetime).getTime() / 1000,
-                          ) -
-                          Math.floor(
-                            new Date(a.data.pubDatetime).getTime() / 1000,
-                          ),
-                      )
-                      .map(({ data, slug }) => (
-                        <Card href={`/posts/${slug}`} frontmatter={data} />
-                      ))}
-                  </ul>
-                </div>
-              ))}
-          </div>
-        ))
-    }
+  <Main pageTitle="Archives" pageDesc="All the articles I've posted.">
+    <ul>
+      {
+        monthGroups
+          .sort((a: PostYear, b: PostYear) => b.year - a.year)
+          .map(({ year, posts }) => (
+            <li class="mb-8">
+              <h2 class="mb-4 text-2xl font-semibold">{year}</h2>
+              <ul>
+                {Object.entries(posts)
+                  .sort(([a], [b]) => parseInt(b) - parseInt(a))
+                  .map(([month, posts]) => (
+                    <li class="mb-4">
+                      <h3 class="mb-2 text-lg font-medium">
+                        {new Date(year, parseInt(month) - 1).toLocaleString("default", {
+                          month: "long",
+                        })}
+                      </h3>
+                      <ul>
+                        {posts
+                          .sort(
+                            (a, b) => b.data.pubDatetime.getTime() - a.data.pubDatetime.getTime()
+                          )
+                          .map((post) => (
+                            <Card
+                              href={`/posts/${post.slug}`}
+                              frontmatter={post.data}
+                              secHeading={false}
+                            />
+                          ))}
+                      </ul>
+                    </li>
+                  ))}
+              </ul>
+            </li>
+          ))
+      }
+    </ul>
   </Main>
-
   <Footer />
 </Layout>

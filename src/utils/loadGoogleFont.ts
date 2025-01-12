@@ -5,10 +5,7 @@ export interface IFontOptions {
   style?: string;
 }
 
-async function loadGoogleFont(
-  font: string,
-  text: string,
-): Promise<ArrayBuffer> {
+async function loadGoogleFont(font: string, text: string): Promise<ArrayBuffer> {
   const API = `https://fonts.googleapis.com/css2?family=${font}&text=${encodeURIComponent(text)}`;
 
   const css = await (
@@ -20,9 +17,7 @@ async function loadGoogleFont(
     })
   ).text();
 
-  const resource = css.match(
-    /src: url\((.+)\) format\('(opentype|truetype)'\)/,
-  );
+  const resource = css.match(/src: url\((.+)\) format\('(opentype|truetype)'\)/);
 
   if (!resource) throw new Error("Failed to download dynamic font");
 
@@ -37,10 +32,8 @@ async function loadGoogleFont(
 }
 
 async function loadGoogleFonts(
-  text: string,
-): Promise<
-  { name: string; data: ArrayBuffer; weight: number; style: string }[]
-> {
+  text: string
+): Promise<{ name: string; data: ArrayBuffer; weight: number; style: string }[]> {
   const fontsConfig = [
     {
       name: "IBM Plex Mono",
@@ -60,7 +53,7 @@ async function loadGoogleFonts(
     fontsConfig.map(async ({ name, font, weight, style }) => {
       const data = await loadGoogleFont(font, text);
       return { name, data, weight, style };
-    }),
+    })
   );
 
   return fonts;

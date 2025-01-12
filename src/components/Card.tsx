@@ -1,5 +1,6 @@
-import type { CollectionEntry } from "astro:content";
 import Datetime from "./Datetime";
+
+import type { CollectionEntry } from "astro:content";
 import type { ReactElement } from "react";
 
 interface IProps {
@@ -8,13 +9,8 @@ interface IProps {
   secHeading?: boolean;
 }
 
-export default function Card({
-  href,
-  frontmatter,
-  secHeading = true,
-}: IProps): ReactElement {
-  const { title, pubDatetime, modDatetime, description, readingTime } =
-    frontmatter;
+export default function Card({ href, frontmatter, secHeading = true }: IProps): ReactElement {
+  const { title, pubDatetime, modDatetime, description, readingTime } = frontmatter;
   return (
     <li className="my-6">
       <a
@@ -22,20 +18,12 @@ export default function Card({
         className="inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
       >
         {secHeading ? (
-          <h2 className="text-lg font-medium decoration-dashed hover:underline">
-            {title}
-          </h2>
+          <h2 className="text-lg font-medium decoration-dashed hover:underline">{title}</h2>
         ) : (
-          <h3 className="text-lg font-medium decoration-dashed hover:underline">
-            {title}
-          </h3>
+          <h3 className="text-lg font-medium decoration-dashed hover:underline">{title}</h3>
         )}
       </a>
-      <Datetime
-        pubDatetime={pubDatetime}
-        modDatetime={modDatetime}
-        readingTime={readingTime}
-      />
+      <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} readingTime={readingTime} />
       <p>{description}</p>
     </li>
   );

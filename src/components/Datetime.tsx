@@ -1,10 +1,11 @@
 import { type ReactElement } from "react";
+
 import type { CollectionEntry } from "astro:content";
 
 interface IDatetimesProps {
-  pubDatetime: string | Date;
-  modDatetime?: string | Date | null;
-  size?: "sm" | "lg";
+  pubDatetime: Date | string;
+  modDatetime?: Date | string | null;
+  size?: "lg" | "sm";
   className?: string;
   readingTime?: string;
 }
@@ -12,11 +13,11 @@ interface IDatetimesProps {
 interface IEditPostProps {
   editPost?: CollectionEntry<"blog">["data"]["editPost"];
   postId?: CollectionEntry<"blog">["id"];
-  size?: "sm" | "lg";
+  size?: "lg" | "sm";
   className?: string;
 }
 
-const DateIcon = ({ size }: { size: "sm" | "lg" }): ReactElement => (
+const DateIcon = ({ size }: { size: "lg" | "sm" }): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={`${
@@ -29,7 +30,7 @@ const DateIcon = ({ size }: { size: "sm" | "lg" }): ReactElement => (
   </svg>
 );
 
-const TimeIcon = ({ size }: { size: "sm" | "lg" }): ReactElement => (
+const TimeIcon = ({ size }: { size: "lg" | "sm" }): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={`${
@@ -42,7 +43,7 @@ const TimeIcon = ({ size }: { size: "sm" | "lg" }): ReactElement => (
   </svg>
 );
 
-const EditIcon = ({ size }: { size: "sm" | "lg" }): ReactElement => (
+const EditIcon = ({ size }: { size: "lg" | "sm" }): ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={`${
@@ -60,7 +61,7 @@ const ReadingTime = ({
   size,
 }: {
   readingTime: string;
-  size: "sm" | "lg";
+  size: "lg" | "sm";
 }): ReactElement => (
   <span className="text-xs">
     <TimeIcon size={size} />
@@ -78,10 +79,7 @@ const FormattedDate = ({ datetime }: { datetime: Date }): ReactElement => (
   </>
 );
 
-const getDisplayDate = (
-  pubDatetime: string | Date,
-  modDatetime?: string | Date | null,
-): Date => {
+const getDisplayDate = (pubDatetime: Date | string, modDatetime?: Date | string | null): Date => {
   const pubDate = new Date(pubDatetime);
   if (modDatetime === null || modDatetime === undefined) {
     return pubDate;
@@ -101,9 +99,7 @@ const Datetimes = ({
   const effectiveSize = size ?? "sm";
 
   return (
-    <div
-      className={`flex items-center space-x-2 opacity-80 ${className ?? ""}`}
-    >
+    <div className={`flex items-center space-x-2 opacity-80 ${className ?? ""}`}>
       <DateIcon size={effectiveSize} />
       <FormattedDate datetime={displayDate} />
       {readingTime !== undefined && readingTime !== "" && (
@@ -113,18 +109,9 @@ const Datetimes = ({
   );
 };
 
-const EditPost = ({
-  editPost,
-  postId,
-  size,
-  className,
-}: IEditPostProps): ReactElement | null => {
+const EditPost = ({ editPost, postId, size, className }: IEditPostProps): ReactElement | null => {
   const editPostUrl = editPost?.url ?? "";
-  if (
-    editPost === undefined ||
-    editPost.disabled === true ||
-    editPostUrl === ""
-  ) {
+  if (editPost === undefined || editPost.disabled === true || editPostUrl === "") {
     return null;
   }
 
@@ -167,12 +154,7 @@ export default function Datetime({
         className={className}
         readingTime={readingTime}
       />
-      <EditPost
-        editPost={editPost}
-        postId={postId}
-        size={size}
-        className={className}
-      />
+      <EditPost editPost={editPost} postId={postId} size={size} className={className} />
     </div>
   );
 }

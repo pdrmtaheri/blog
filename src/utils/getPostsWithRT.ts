@@ -1,6 +1,7 @@
-import type { CollectionEntry } from "astro:content";
-import getReadingTime from "reading-time";
 import { toString } from "mdast-util-to-string";
+import getReadingTime from "reading-time";
+
+import type { CollectionEntry } from "astro:content";
 import type { Root } from "mdast";
 import type { VFile } from "vfile";
 
@@ -13,7 +14,7 @@ export const remarkReadingTime =
   };
 
 export const getPostsWithRT = async (
-  posts: CollectionEntry<"blog">[],
+  posts: CollectionEntry<"blog">[]
 ): Promise<CollectionEntry<"blog">[]> => {
   const postsWithRT = await Promise.all(
     posts.map(async (post) => {
@@ -25,7 +26,7 @@ export const getPostsWithRT = async (
           readingTime: remarkPluginFrontmatter.readingTime,
         },
       };
-    }),
+    })
   );
   return postsWithRT;
 };

@@ -1,10 +1,12 @@
-import satori from "satori";
-import type { CollectionEntry } from "astro:content";
 import { SITE } from "@config";
-import loadGoogleFonts, { type FontOptions } from "../loadGoogleFont";
+import satori, { type Font } from "satori";
+import type { CollectionEntry } from "astro:content";
+import loadGoogleFonts from "../loadGoogleFont";
 
-export default async (post: CollectionEntry<"blog">): Promise<string> =>
-  satori(
+export default async function generateOgImage(post: CollectionEntry<"blog">): Promise<string> {
+  const fonts = await loadGoogleFonts(`${post.data.title + post.data.author + SITE.title}by`);
+
+  return await satori(
     <div
       style={{
         background: "#fefbfb",
@@ -82,14 +84,9 @@ export default async (post: CollectionEntry<"blog">): Promise<string> =>
               >
                 &quot;
               </span>
-              <span style={{ overflow: "hidden", fontWeight: "bold" }}>
-                {post.data.author}
-              </span>
+              {post.data.author}
             </span>
-
-            <span style={{ overflow: "hidden", fontWeight: "bold" }}>
-              {SITE.title}
-            </span>
+            <span style={{ overflow: "hidden" }}>{SITE.title}</span>
           </div>
         </div>
       </div>
@@ -98,8 +95,7 @@ export default async (post: CollectionEntry<"blog">): Promise<string> =>
       width: 1200,
       height: 630,
       embedFont: true,
-      fonts: (await loadGoogleFonts(
-        `${post.data.title + post.data.author + SITE.title}by`,
-      )) as FontOptions[],
-    },
+      fonts: fonts as Font[],
+    }
   );
+}

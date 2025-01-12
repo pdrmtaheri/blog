@@ -7,12 +7,28 @@ import reactHooksPlugin from "eslint-plugin-react-hooks";
 import astroPlugin from "eslint-plugin-astro";
 import jsxA11yPlugin from "eslint-plugin-jsx-a11y";
 import astroParser from "astro-eslint-parser";
+import prettier from "eslint-plugin-prettier";
+import securityPlugin from "eslint-plugin-security";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const baseRules = {};
+
+const baseRules = {
+  "no-console": ["warn", { allow: ["warn", "error"] }],
+  "no-debugger": "warn",
+  "no-unused-vars": "warn",
+  "prefer-const": "error",
+  eqeqeq: ["error", "always"],
+  "prettier/prettier": "error",
+  // Security plugin base rules
+  "security/detect-object-injection": "off",
+  "security/detect-non-literal-regexp": "warn",
+  "security/detect-unsafe-regex": "error",
+  "security/detect-buffer-noassert": "error",
+  "security/detect-eval-with-expression": "error",
+};
 
 export default [
   {
@@ -21,6 +37,10 @@ export default [
   {
     files: ["**/*.js"],
     ...js.configs.recommended,
+    plugins: {
+      prettier,
+      security: securityPlugin,
+    },
     rules: baseRules,
   },
   {
@@ -29,6 +49,8 @@ export default [
       react: reactPlugin,
       "react-hooks": reactHooksPlugin,
       "jsx-a11y": jsxA11yPlugin,
+      prettier,
+      security: securityPlugin,
     },
     settings: {
       react: {
@@ -40,6 +62,8 @@ export default [
       ...reactHooksPlugin.configs.recommended.rules,
       ...baseRules,
       "react/react-in-jsx-scope": "off",
+      "react-hooks/exhaustive-deps": "warn",
+      "react/jsx-no-target-blank": "error",
     },
   },
   {
@@ -47,12 +71,14 @@ export default [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: true,
+        project: "./tsconfig.json",
         tsconfigRootDir: __dirname,
       },
     },
     plugins: {
       "@typescript-eslint": tseslintPlugin,
+      prettier,
+      security: securityPlugin,
     },
     rules: {
       ...tseslint.configs.strictTypeChecked.rules,
@@ -73,6 +99,11 @@ export default [
           },
         },
       ],
+      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-non-null-assertion": "warn",
+      "@typescript-eslint/consistent-type-imports": ["error", { prefer: "type-imports" }],
+      "@typescript-eslint/consistent-type-exports": "error",
+      "@typescript-eslint/sort-type-constituents": "error",
     },
   },
   {
@@ -82,13 +113,15 @@ export default [
       parserOptions: {
         parser: tsParser,
         extraFileExtensions: [".astro"],
-        project: true,
+        project: "./tsconfig.json",
         tsconfigRootDir: __dirname,
       },
     },
     plugins: {
       astro: astroPlugin,
       "@typescript-eslint": tseslintPlugin,
+      prettier,
+      security: securityPlugin,
     },
     rules: {
       ...tseslint.configs.strictTypeChecked.rules,

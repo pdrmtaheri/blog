@@ -1,7 +1,9 @@
 import { getCollection } from "astro:content";
+
 import { getPostsWithRT } from "./getPostsWithRT";
 import getSortedPosts from "./getSortedPosts";
 import getUniqueTags from "./getUniqueTags";
+
 import type { PaginateFunction } from "astro";
 
 interface ITagStaticPathParams {
