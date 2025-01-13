@@ -55,31 +55,24 @@ const structuredData = {
   <head>
     <!-- Critical theme initialization - must be inline and before any content -->
     <script is:inline>
-      (function() {
+      (function () {
         const theme = (() => {
           if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
             return localStorage.getItem("theme");
           }
           return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         })();
-        
-        // Apply theme immediately to prevent flash
-        document.documentElement.dataset.theme = theme;
-      })();
-    </script>
 
-    <!-- Theme change handling -->
-    <script is:inline>
-      (function() {
-        function updateTheme(theme) {
-          document.documentElement.dataset.theme = theme;
+        function updateTheme(newTheme) {
+          document.documentElement.dataset.theme = newTheme;
           ["#theme-btn", "#theme-btn-desktop"].forEach((id) => {
             const btn = document.querySelector(id);
-            if (btn) btn.setAttribute("aria-label", theme);
+            if (btn) btn.setAttribute("aria-label", newTheme);
           });
         }
 
-        // Watch for system theme changes if no preference is stored
+        updateTheme(theme);
+
         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
         mediaQuery.addEventListener("change", (e) => {
           if (!localStorage.getItem("theme")) {
@@ -87,11 +80,10 @@ const structuredData = {
           }
         });
 
-        // Re-initialize after page transitions
         document.addEventListener("astro:after-swap", () => {
-          const theme = localStorage.getItem("theme") || 
-            (mediaQuery.matches ? "dark" : "light");
-          updateTheme(theme);
+          const currentTheme =
+            localStorage.getItem("theme") || (mediaQuery.matches ? "dark" : "light");
+          updateTheme(currentTheme);
         });
       })();
     </script>
@@ -137,8 +129,6 @@ const structuredData = {
       rel="stylesheet"
       crossorigin
     />
-
-    <meta name="theme-color" content="#ffffff" />
 
     {
       googleSiteVerification && (

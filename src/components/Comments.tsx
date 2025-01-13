@@ -18,7 +18,7 @@ export default function Comments({
   });
 
   useEffect(() => {
-    const updateGiscusTheme = (theme: string) => {
+    const updateGiscusTheme = (theme: string): void => {
       setGiscusTheme(theme?.includes("dark") ? darkTheme : lightTheme);
     };
 
