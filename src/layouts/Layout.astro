@@ -66,17 +66,14 @@ const structuredData = {
           const theme = getTheme();
           doc.dataset.theme = theme;
 
-          // Set initial aria-labels
           ["#theme-btn", "#theme-btn-desktop"].forEach((id) => {
             const btn = document.querySelector(id);
             if (btn) btn.setAttribute("aria-label", theme);
           });
         }
 
-        // Initialize theme immediately
         initTheme();
 
-        // Also set up the system theme listener
         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
         mediaQuery.addEventListener("change", (e) => {
           if (!localStorage.getItem("theme")) {
@@ -89,7 +86,6 @@ const structuredData = {
           }
         });
 
-        // Handle theme after page transitions
         document.addEventListener("astro:after-swap", initTheme);
       })();
     </script>
@@ -132,9 +128,7 @@ const structuredData = {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"
-      rel="preload"
-      as="style"
-      onload="this.onload=null; this.rel='stylesheet';"
+      rel="stylesheet"
       crossorigin
     />
 
