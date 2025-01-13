@@ -288,7 +288,11 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
   function backToTop() {
     const backToTopButton = document.querySelector("#back-to-top");
     if (backToTopButton) {
-      backToTopButton.addEventListener("click", () => {
+      // Remove any existing listeners
+      const newButton = backToTopButton.cloneNode(true);
+      backToTopButton.parentNode.replaceChild(newButton, backToTopButton);
+
+      newButton.addEventListener("click", () => {
         window.scrollTo({
           top: 0,
           behavior: "smooth",
@@ -299,7 +303,8 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
   backToTop();
 
   /* Go to page start after page swap */
-  document.addEventListener("astro:after-swap", () =>
-    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
-  );
+  document.addEventListener("astro:after-swap", () => {
+    window.scrollTo({ left: 0, top: 0, behavior: "instant" });
+    backToTop(); // Re-initialize back to top button after page transitions
+  });
 </script>

@@ -51,20 +51,21 @@ const structuredData = {
 ---
 
 <!doctype html>
-<html lang=`${LOCALE.lang ?? "en"}` class={`${scrollSmooth && "scroll-smooth"}`}>
+<html lang=`${LOCALE.lang ?? "en"}` class={`${scrollSmooth && "scroll-smooth"}`} data-theme="light">
   <head>
     <!-- Critical theme initialization - must be inline -->
     <script is:inline>
       (function () {
         function initTheme() {
-          const doc = document.documentElement;
           const getTheme = () => {
-            const stored = localStorage.getItem("theme");
-            if (stored) return stored;
+            if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+              return localStorage.getItem("theme");
+            }
             return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
           };
+
           const theme = getTheme();
-          doc.dataset.theme = theme;
+          document.documentElement.dataset.theme = theme;
 
           ["#theme-btn", "#theme-btn-desktop"].forEach((id) => {
             const btn = document.querySelector(id);
