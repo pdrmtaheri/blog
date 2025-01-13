@@ -51,43 +51,48 @@ const structuredData = {
 ---
 
 <!doctype html>
-<html lang=`${LOCALE.lang ?? "en"}` class={`${scrollSmooth && "scroll-smooth"}`} data-theme="light">
+<html lang=`${LOCALE.lang ?? "en"}` class={`${scrollSmooth && "scroll-smooth"}`}>
   <head>
-    <!-- Critical theme initialization - must be inline -->
+    <!-- Critical theme initialization - must be inline and before any content -->
     <script is:inline>
-      (function () {
-        function initTheme() {
-          const getTheme = () => {
-            if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-              return localStorage.getItem("theme");
-            }
-            return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-          };
+      (function() {
+        const theme = (() => {
+          if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+            return localStorage.getItem("theme");
+          }
+          return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        })();
+        
+        // Apply theme immediately to prevent flash
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
 
-          const theme = getTheme();
+    <!-- Theme change handling -->
+    <script is:inline>
+      (function() {
+        function updateTheme(theme) {
           document.documentElement.dataset.theme = theme;
-
           ["#theme-btn", "#theme-btn-desktop"].forEach((id) => {
             const btn = document.querySelector(id);
             if (btn) btn.setAttribute("aria-label", theme);
           });
         }
 
-        initTheme();
-
+        // Watch for system theme changes if no preference is stored
         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
         mediaQuery.addEventListener("change", (e) => {
           if (!localStorage.getItem("theme")) {
-            const newTheme = e.matches ? "dark" : "light";
-            document.documentElement.dataset.theme = newTheme;
-            ["#theme-btn", "#theme-btn-desktop"].forEach((id) => {
-              const btn = document.querySelector(id);
-              if (btn) btn.setAttribute("aria-label", newTheme);
-            });
+            updateTheme(e.matches ? "dark" : "light");
           }
         });
 
-        document.addEventListener("astro:after-swap", initTheme);
+        // Re-initialize after page transitions
+        document.addEventListener("astro:after-swap", () => {
+          const theme = localStorage.getItem("theme") || 
+            (mediaQuery.matches ? "dark" : "light");
+          updateTheme(theme);
+        });
       })();
     </script>
 

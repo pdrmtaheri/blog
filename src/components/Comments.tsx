@@ -10,26 +10,36 @@ export default function Comments({
   lightTheme = "light",
   darkTheme = "dark",
 }: ICommentsProps): ReactElement {
-  const [giscusTheme, setGiscusTheme] = useState<Theme>(lightTheme);
+  const [giscusTheme, setGiscusTheme] = useState<Theme>(() => {
+    if (typeof document !== "undefined") {
+      return document.documentElement.dataset.theme?.includes("dark") ? darkTheme : lightTheme;
+    }
+    return lightTheme;
+  });
 
   useEffect(() => {
-    // Initial theme setup
-    const currentTheme = localStorage.getItem("theme");
-    setGiscusTheme(currentTheme?.includes("dark") ? darkTheme : lightTheme);
+    const updateGiscusTheme = (theme: string) => {
+      setGiscusTheme(theme?.includes("dark") ? darkTheme : lightTheme);
+    };
 
-    // Theme change observer
+    // Initial theme setup
+    updateGiscusTheme(document.documentElement.dataset.theme || "");
+
     const observer = new MutationObserver((mutations): void => {
       mutations.forEach((mutation): void => {
-        if (mutation.target instanceof HTMLElement) {
-          const isDark = mutation.target.classList.contains("dark");
-          setGiscusTheme(isDark ? darkTheme : lightTheme);
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "data-theme" &&
+          mutation.target instanceof HTMLElement
+        ) {
+          updateGiscusTheme(mutation.target.dataset.theme || "");
         }
       });
     });
 
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ["class"],
+      attributeFilter: ["data-theme"],
     });
 
     return (): void => {
