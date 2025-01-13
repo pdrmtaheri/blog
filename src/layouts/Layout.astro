@@ -51,7 +51,7 @@ const structuredData = {
 ---
 
 <!doctype html>
-<html lang=`${LOCALE.lang ?? "en"}` class={`${scrollSmooth && "scroll-smooth"}`} data-theme="light">
+<html lang=`${LOCALE.lang ?? "en"}` class={`${scrollSmooth && "scroll-smooth"}`}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -110,13 +110,15 @@ const structuredData = {
 
     <script is:inline>
       // Immediately set the theme on page load to prevent flash
-      const theme =
-        localStorage.getItem("theme") ||
-        (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-      document.documentElement.setAttribute("data-theme", theme);
+      (function () {
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const initialTheme = savedTheme || (prefersDark ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", initialTheme);
+      })();
     </script>
 
-    <script data-cfasync="false" is:inline type="module" src="/toggle-theme.js"></script>
+    <script is:inline type="module" src="/toggle-theme.js"></script>
   </head>
   <body>
     <slot />

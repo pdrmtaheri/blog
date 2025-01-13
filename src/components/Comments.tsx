@@ -10,19 +10,19 @@ export default function Comments({
   lightTheme = "light",
   darkTheme = "dark",
 }: ICommentsProps): ReactElement {
-  const [theme, setTheme] = useState<Theme>(lightTheme);
+  const [giscusTheme, setGiscusTheme] = useState<Theme>(lightTheme);
 
   useEffect(() => {
     // Initial theme setup
     const currentTheme = localStorage.getItem("theme");
-    setTheme(currentTheme?.includes("dark") ? darkTheme : lightTheme);
+    setGiscusTheme(currentTheme?.includes("dark") ? darkTheme : lightTheme);
 
     // Theme change observer
     const observer = new MutationObserver((mutations): void => {
       mutations.forEach((mutation): void => {
         if (mutation.target instanceof HTMLElement) {
           const isDark = mutation.target.classList.contains("dark");
-          setTheme(isDark ? darkTheme : lightTheme);
+          setGiscusTheme(isDark ? darkTheme : lightTheme);
         }
       });
     });
@@ -49,7 +49,7 @@ export default function Comments({
         reactionsEnabled="1"
         emitMetadata="0"
         inputPosition="top"
-        theme={theme}
+        theme={giscusTheme}
         lang="en"
         loading="eager"
       />
