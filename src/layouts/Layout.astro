@@ -53,6 +53,47 @@ const structuredData = {
 <!doctype html>
 <html lang=`${LOCALE.lang ?? "en"}` class={`${scrollSmooth && "scroll-smooth"}`}>
   <head>
+    <!-- Critical theme initialization - must be inline -->
+    <script is:inline>
+      (function () {
+        function initTheme() {
+          const doc = document.documentElement;
+          const getTheme = () => {
+            const stored = localStorage.getItem("theme");
+            if (stored) return stored;
+            return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          };
+          const theme = getTheme();
+          doc.dataset.theme = theme;
+
+          // Set initial aria-labels
+          ["#theme-btn", "#theme-btn-desktop"].forEach((id) => {
+            const btn = document.querySelector(id);
+            if (btn) btn.setAttribute("aria-label", theme);
+          });
+        }
+
+        // Initialize theme immediately
+        initTheme();
+
+        // Also set up the system theme listener
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+        mediaQuery.addEventListener("change", (e) => {
+          if (!localStorage.getItem("theme")) {
+            const newTheme = e.matches ? "dark" : "light";
+            document.documentElement.dataset.theme = newTheme;
+            ["#theme-btn", "#theme-btn-desktop"].forEach((id) => {
+              const btn = document.querySelector(id);
+              if (btn) btn.setAttribute("aria-label", newTheme);
+            });
+          }
+        });
+
+        // Handle theme after page transitions
+        document.addEventListener("astro:after-swap", initTheme);
+      })();
+    </script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -108,17 +149,7 @@ const structuredData = {
     <PostHog />
     <ClientRouter />
 
-    <script is:inline>
-      // Immediately set the theme on page load to prevent flash
-      (function () {
-        const savedTheme = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        const initialTheme = savedTheme || (prefersDark ? "dark" : "light");
-        document.documentElement.setAttribute("data-theme", initialTheme);
-      })();
-    </script>
-
-    <script is:inline type="module" src="/toggle-theme.js"></script>
+    <script src="/toggle-theme.js" defer></script>
   </head>
   <body>
     <slot />
