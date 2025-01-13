@@ -63,15 +63,20 @@ const structuredData = {
           return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         })();
 
-        function updateTheme(newTheme) {
-          document.documentElement.dataset.theme = newTheme;
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+
+    <!-- Theme change handling -->
+    <script is:inline>
+      (function () {
+        function updateTheme(theme) {
+          document.documentElement.dataset.theme = theme;
           ["#theme-btn", "#theme-btn-desktop"].forEach((id) => {
             const btn = document.querySelector(id);
-            if (btn) btn.setAttribute("aria-label", newTheme);
+            if (btn) btn.setAttribute("aria-label", theme);
           });
         }
-
-        updateTheme(theme);
 
         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
         mediaQuery.addEventListener("change", (e) => {
@@ -81,9 +86,8 @@ const structuredData = {
         });
 
         document.addEventListener("astro:after-swap", () => {
-          const currentTheme =
-            localStorage.getItem("theme") || (mediaQuery.matches ? "dark" : "light");
-          updateTheme(currentTheme);
+          const theme = localStorage.getItem("theme") || (mediaQuery.matches ? "dark" : "light");
+          updateTheme(theme);
         });
       })();
     </script>
@@ -129,6 +133,8 @@ const structuredData = {
       rel="stylesheet"
       crossorigin
     />
+
+    <meta name="theme-color" content="#ffffff" />
 
     {
       googleSiteVerification && (
