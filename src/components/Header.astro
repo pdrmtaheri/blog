@@ -182,6 +182,22 @@ const { activeNav } = Astro.props;
   #skip-to-content {
     @apply absolute -top-[999px] -left-[999px] z-50 bg-skin-accent px-3 py-2 text-skin-inverted transition-all focus:left-16 focus:top-4;
   }
+
+  /* Add scroll margin for anchor targets */
+  :global(:target) {
+    scroll-margin-top: var(--scroll-margin-top, 100px);
+    animation: highlight 1s ease;
+  }
+
+  @keyframes highlight {
+    from {
+      background-color: var(--color-highlight, rgba(255, 255, 200, 0.5));
+    }
+    to {
+      background-color: transparent;
+    }
+  }
+
   .nav-container {
     @apply mx-auto flex max-w-3xl flex-col items-center justify-between sm:flex-row;
     transform: translateZ(0);
@@ -297,8 +313,42 @@ const { activeNav } = Astro.props;
   function updateNavHeight() {
     const header = document.querySelector("header");
     if (header) {
-      document.documentElement.style.setProperty("--header-height", `${header.offsetHeight}px`);
+      const headerHeight = header.offsetHeight;
+      document.documentElement.style.setProperty("--header-height", `${headerHeight}px`);
+      // Add extra padding to account for transitions and ensure content is visible
+      document.documentElement.style.setProperty("--scroll-margin-top", `${headerHeight + 20}px`);
     }
+  }
+
+  // Handle smooth scrolling for anchor links
+  function setupSmoothScroll() {
+    const links = document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]');
+
+    links.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        const href = link.getAttribute("href");
+        if (!href) return;
+
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          updateNavHeight();
+
+          setTimeout(() => {
+            const headerHeight =
+              parseFloat(
+                getComputedStyle(document.documentElement).getPropertyValue("--header-height")
+              ) || 0;
+
+            const targetPosition = target.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({
+              top: targetPosition - headerHeight - 20,
+              behavior: "smooth",
+            });
+          }, 50);
+        }
+      });
+    });
   }
 
   function toggleNav() {
@@ -418,6 +468,7 @@ const { activeNav } = Astro.props;
   }
 
   toggleNav();
+  setupSmoothScroll();
 
   // Use passive event listener for better performance
   window.addEventListener(
@@ -449,6 +500,7 @@ const { activeNav } = Astro.props;
     toggleNav();
     handleScroll();
     updateNavHeight();
+    setupSmoothScroll(); // Re-setup smooth scroll after navigation
   });
 
   // Add initial progress update
