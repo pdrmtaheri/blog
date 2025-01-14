@@ -388,26 +388,59 @@ const { activeNav } = Astro.props;
     }
   }
 
-  // Add throttling to scroll event for better performance
+  // Improved throttle function with requestAnimationFrame
   function throttle(func: (...args: any[]) => void, limit: number) {
-    let inThrottle: boolean;
+    let waiting = false;
+    let lastArgs: any[] | null = null;
+
     return function (this: any, ...args: any[]) {
-      if (!inThrottle) {
+      if (!waiting) {
         func.apply(this, args);
-        inThrottle = true;
-        setTimeout(() => (inThrottle = false), limit);
+        waiting = true;
+
+        requestAnimationFrame(() => {
+          if (lastArgs) {
+            func.apply(this, lastArgs);
+            lastArgs = null;
+          }
+          setTimeout(() => {
+            waiting = false;
+            if (lastArgs) {
+              func.apply(this, lastArgs);
+              lastArgs = null;
+            }
+          }, limit);
+        });
+      } else {
+        lastArgs = args;
       }
     };
   }
 
   toggleNav();
-  // Throttle scroll event handler
+
+  // Use passive event listener for better performance
   window.addEventListener(
     "scroll",
     throttle(() => {
-      handleScroll();
-    }, 10)
-  ); // 10ms throttle for smooth animation
+      requestAnimationFrame(() => {
+        handleScroll();
+      });
+    }, 16),
+    { passive: true }
+  );
+
+  // Also handle touchmove events for smoother mobile experience
+  window.addEventListener(
+    "touchmove",
+    throttle(() => {
+      requestAnimationFrame(() => {
+        handleScroll();
+      });
+    }, 16),
+    { passive: true }
+  );
+
   window.addEventListener("resize", updateNavHeight);
   updateNavHeight(); // Initial height set
 
