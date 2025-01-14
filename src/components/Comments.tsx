@@ -52,9 +52,9 @@ export default function Comments({
       <Giscus
         id="comments"
         repo="pdrmtaheri/blog"
-        repoId="R_kgDOLNGQrw"
-        data-category="General"
-        data-category-id="DIC_kwDONfBvN84Cl8eV"
+        repoId="R_kgDONfBvNw"
+        category="General"
+        categoryId="DIC_kwDONfBvN84Cl8eV"
         mapping="pathname"
         reactionsEnabled="1"
         emitMetadata="0"
