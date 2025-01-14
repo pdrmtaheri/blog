@@ -73,7 +73,7 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
     </button>
   </div>
   <main id="main-content">
-    <h1 transition:name={slugifyStr(title)} class="post-title inline-block">
+    <h1 class="post-title inline-block" transition:name={slugifyStr(title)}>
       {title}
     </h1>
     <Datetime
@@ -134,7 +134,9 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
             </svg>
             <div>
               <span>Previous Post</span>
-              <div class="text-sm text-skin-accent/95">{prevPost.title}</div>
+              <div class="text-sm text-skin-accent/95" transition:name={slugifyStr(prevPost.title)}>
+                {prevPost.title}
+              </div>
             </div>
           </a>
         )
@@ -147,7 +149,9 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
           >
             <div>
               <span>Next Post</span>
-              <div class="text-sm text-skin-accent/95">{nextPost.title}</div>
+              <div class="text-sm text-skin-accent/95" transition:name={slugifyStr(nextPost.title)}>
+                {nextPost.title}
+              </div>
             </div>
             <svg
               xmlns="http://www.w3.org/2000/svg"

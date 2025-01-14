@@ -1,5 +1,5 @@
 ---
-import Card from "@components/Card";
+import Card from "@components/Card.astro";
 import Footer from "@components/Footer.astro";
 import Header from "@components/Header.astro";
 import { SITE } from "@config";
@@ -29,17 +29,16 @@ const yearGroups = posts.reduce(
 );
 
 // Group posts by month within each year
-const monthGroups: PostYear[] = Object.entries(yearGroups).map(([year, yearPosts]) => {
-  const monthPosts = yearPosts.reduce(
+const monthGroups = Object.entries(yearGroups).map(([year, posts]) => {
+  const monthPosts = posts.reduce(
     (acc, post) => {
-      const month = (post.data.pubDatetime.getMonth() + 1).toString();
+      const month = (post.data.pubDatetime.getMonth() + 1).toString().padStart(2, "0");
       if (!acc[month]) acc[month] = [];
       acc[month].push(post);
       return acc;
     },
     {} as Record<string, CollectionEntry<"blog">[]>
   );
-
   return {
     year: parseInt(year),
     posts: monthPosts,
