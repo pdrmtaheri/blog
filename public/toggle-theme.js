@@ -1,28 +1,60 @@
-function toggleTheme() {
-  const doc = document.documentElement;
-  const currentTheme = doc.dataset.theme;
-  const newTheme = currentTheme === "light" ? "dark" : "light";
+const primaryColorScheme = "dark"; // "light" | "dark"
 
-  doc.dataset.theme = newTheme;
-  localStorage.setItem("theme", newTheme);
+const currentTheme = localStorage.getItem("theme");
 
-  ["#theme-btn", "#theme-btn-desktop"].forEach((id) => {
-    const btn = document.querySelector(id);
-    if (btn) btn.setAttribute("aria-label", newTheme);
-  });
+function getPreferTheme() {
+  if (currentTheme) return currentTheme;
+  if (primaryColorScheme) return primaryColorScheme;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
-function initButtons() {
-  ["#theme-btn", "#theme-btn-desktop"].forEach((selector) => {
-    const button = document.querySelector(selector);
-    if (button) {
-      // Remove any existing listeners
-      const newButton = button.cloneNode(true);
-      button.parentNode.replaceChild(newButton, button);
-      newButton.addEventListener("click", toggleTheme);
-    }
-  });
+let themeValue = getPreferTheme();
+
+function setPreference() {
+  localStorage.setItem("theme", themeValue);
+  reflectPreference();
 }
 
-window.addEventListener("load", initButtons);
-document.addEventListener("astro:after-swap", initButtons);
+function reflectPreference() {
+  document.firstElementChild.setAttribute("data-theme", themeValue);
+
+  document.querySelector("#theme-btn")?.setAttribute("aria-label", themeValue);
+  document.querySelector("#theme-btn-desktop")?.setAttribute("aria-label", themeValue);
+
+  const body = document.body;
+
+  if (body) {
+    const computedStyles = window.getComputedStyle(body);
+    const bgColor = computedStyles.backgroundColor;
+    document.querySelector("meta[name='theme-color']")?.setAttribute("content", bgColor);
+  }
+}
+
+reflectPreference();
+
+window.onload = () => {
+  function setThemeFeature() {
+    reflectPreference();
+
+    document.querySelector("#theme-btn")?.addEventListener("click", () => {
+      themeValue = themeValue === "light" ? "dark" : "light";
+      setPreference();
+    });
+
+    document.querySelector("#theme-btn-desktop")?.addEventListener("click", () => {
+      themeValue = themeValue === "light" ? "dark" : "light";
+      setPreference();
+    });
+  }
+
+  setThemeFeature();
+
+  document.addEventListener("astro:after-swap", setThemeFeature);
+};
+
+window
+  .matchMedia("(prefers-color-scheme: dark)")
+  .addEventListener("change", ({ matches: isDark }) => {
+    themeValue = isDark ? "dark" : "light";
+    setPreference();
+  });
