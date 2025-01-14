@@ -28,6 +28,9 @@ export default defineConfig({
     sitemap(),
     compress(),
   ],
+  image: {
+    experimentalLayout: "responsive",
+  },
   markdown: {
     remarkPlugins: [
       remarkToc,
@@ -52,5 +55,8 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
     },
+  },
+  experimental: {
+    responsiveImages: true,
   },
 });
