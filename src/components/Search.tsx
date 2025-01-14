@@ -73,15 +73,18 @@ export default function Search({ searchList }: IProps): ReactElement {
   }, []);
 
   useEffect(() => {
+    const inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
+    setSearchResults(inputResult);
+
     if (inputVal.length > 0) {
       const searchParams = new URLSearchParams(window.location.search);
       searchParams.set("q", inputVal);
-      const newRelativePathQuery = `${window.location.pathname}?${searchParams.toString()}`;
-      history.pushState(null, "", newRelativePathQuery);
+      const newRelativePathQuery = window.location.pathname + "?" + searchParams.toString();
+      history.replaceState(history.state, "", newRelativePathQuery);
     } else {
-      history.pushState(null, "", window.location.pathname);
+      history.replaceState(history.state, "", window.location.pathname);
     }
-  }, [inputVal]);
+  }, [inputVal, fuse]);
 
   useEffect(() => {
     if (inputVal.length > 0) {
