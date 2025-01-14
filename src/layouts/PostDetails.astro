@@ -106,7 +106,7 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
       <ShareLinks />
     </div>
 
-    <Comments client:only="react" />
+    <Comments client:idle />
 
     <hr class="my-6 border-dashed" />
 
@@ -288,11 +288,7 @@ const nextPost = currentPostIndex !== allPosts.length ? allPosts[currentPostInde
   function backToTop() {
     const backToTopButton = document.querySelector("#back-to-top");
     if (backToTopButton) {
-      // Remove any existing listeners
-      const newButton = backToTopButton.cloneNode(true);
-      backToTopButton.parentNode.replaceChild(newButton, backToTopButton);
-
-      newButton.addEventListener("click", () => {
+      backToTopButton.addEventListener("click", () => {
         window.scrollTo({
           top: 0,
           behavior: "smooth",
