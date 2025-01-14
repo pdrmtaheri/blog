@@ -27,8 +27,14 @@ function SearchResults({ searchResults, searchTerm }: ISearchResultsProps): Reac
       <ul>
         {searchResults.map(({ item, refIndex }) => (
           <li key={`${refIndex}-${item.id}`} className="mb-4">
-            <a href={`/posts/${item.slug}`} className="decoration-dashed hover:underline">
-              <h3 className="text-lg font-medium">{item.data.title}</h3>
+            <a
+              href={`/posts/${item.slug}`}
+              className="inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
+              aria-label={`Read more about ${item.data.title}`}
+            >
+              <h3 className="text-lg font-medium decoration-dashed hover:underline">
+                {item.data.title}
+              </h3>
             </a>
             <p>{item.data.description}</p>
           </li>
