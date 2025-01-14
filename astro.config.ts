@@ -2,7 +2,6 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
-import compress from "astro-compress";
 import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import { remarkReadingTime } from "./src/utils/getPostsWithRT";
@@ -10,6 +9,8 @@ import { remarkReadingTime } from "./src/utils/getPostsWithRT";
 import { SITE } from "./src/config";
 
 import type { Node } from "unist";
+
+import playformCompress from "@playform/compress";
 
 interface IHeadingNode extends Node {
   type: "heading";
@@ -26,7 +27,7 @@ export default defineConfig({
     }),
     react(),
     sitemap(),
-    compress(),
+    playformCompress(),
   ],
   image: {
     experimentalLayout: "responsive",
