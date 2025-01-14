@@ -14,7 +14,8 @@
     "lint:fix": "eslint . --fix",
     "check": "astro check && tsc --noEmit",
     "validate": "npm run format:check && npm run lint && npm run check",
-    "fix": "npm run format && npm run lint:fix"
+    "fix": "npm run format && npm run lint:fix",
+    "prepare": "husky"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -53,6 +54,7 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-security": "^3.0.1",
     "globals": "^15.9.0",
+    "husky": "^9.1.7",
     "prettier": "^3.4.2",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.6",
