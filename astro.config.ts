@@ -59,4 +59,8 @@ export default defineConfig({
   experimental: {
     responsiveImages: true,
   },
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "viewport",
+  },
 });
