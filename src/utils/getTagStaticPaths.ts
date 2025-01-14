@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import { getPostsWithRT } from "./getPostsWithRT";
 import getSortedPosts from "./getSortedPosts";
 import getUniqueTags from "./getUniqueTags";
+import slugifyStr from "./slugify";
 
 import type { PaginateFunction } from "astro";
 
@@ -25,7 +26,7 @@ export const getStaticPaths = async ({
     const tagPosts = postsWithRT.filter((post) => {
       const postTags = post.data.tags;
       if (!Array.isArray(postTags)) return false;
-      return postTags.some((t) => t.toLowerCase() === tag.toLowerCase());
+      return postTags.some((t) => slugifyStr(t) === tag);
     });
 
     return paginate(tagPosts, {
