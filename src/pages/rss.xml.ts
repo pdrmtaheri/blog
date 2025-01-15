@@ -16,5 +16,9 @@ export async function GET(): Promise<Response> {
       description: data.description,
       pubDate: new Date(data.modDatetime ?? data.pubDatetime),
     })),
+    customData: `<atom:link href="${SITE.website}rss.xml" rel="self" type="application/rss+xml" />`,
+    xmlns: {
+      atom: "http://www.w3.org/2005/Atom",
+    },
   });
 }
