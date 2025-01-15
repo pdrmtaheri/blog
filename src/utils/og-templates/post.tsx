@@ -6,7 +6,7 @@ import loadGoogleFonts from "../loadGoogleFont";
 export default async function generateOgImage(post: CollectionEntry<"blog">): Promise<string> {
   const fonts = await loadGoogleFonts(`${post.data.title + post.data.author + SITE.title}by`);
 
-  return await satori(
+  return satori(
     <div
       style={{
         background: "#fefbfb",

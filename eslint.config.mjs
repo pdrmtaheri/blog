@@ -18,7 +18,6 @@ const __dirname = dirname(__filename);
 const baseRules = {
   "no-console": ["warn", { allow: ["warn", "error"] }],
   "no-debugger": "warn",
-  "no-unused-vars": "warn",
   "prefer-const": "error",
   eqeqeq: ["error", "always"],
   "prettier/prettier": "error",
@@ -28,6 +27,10 @@ const baseRules = {
   "security/detect-unsafe-regex": "error",
   "security/detect-buffer-noassert": "error",
   "security/detect-eval-with-expression": "error",
+  "no-unused-expressions": "error",
+  "no-throw-literal": "error",
+  "no-return-await": "error",
+  "no-promise-executor-return": "error",
 };
 
 export default [
