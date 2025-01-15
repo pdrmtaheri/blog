@@ -1,5 +1,6 @@
 import Fuse from "fuse.js";
 import { useEffect, useRef, useState, useMemo, type ReactElement, type ChangeEvent } from "react";
+import slugifyStr from "@utils/slugify";
 
 import type { CollectionEntry } from "astro:content";
 
@@ -32,7 +33,10 @@ function SearchResults({ searchResults, searchTerm }: ISearchResultsProps): Reac
               className="inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
               aria-label={`Read more about ${item.data.title}`}
             >
-              <h3 className="text-lg font-medium decoration-dashed hover:underline">
+              <h3
+                className="text-lg font-medium decoration-dashed hover:underline"
+                style={{ viewTransitionName: slugifyStr(item.data.title) }}
+              >
                 {item.data.title}
               </h3>
             </a>
