@@ -4,7 +4,7 @@ import type { GiscusProps } from "@giscus/react";
 export const SITE: ISite = {
   website: "https://pedram.blog/",
   author: "Pedram Taheri",
-  profile: "https://satnaing.dev/",
+  profile: "https://pedram.blog/",
   desc: "Pedram's blog: Thoughts on Building with Software",
   title: "Pedram's Blog",
   lightAndDarkMode: true,
