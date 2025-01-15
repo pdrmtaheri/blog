@@ -12,6 +12,8 @@ import type { Node } from "unist";
 
 import playformCompress from "@playform/compress";
 
+import playformInline from "@playform/inline";
+
 interface IHeadingNode extends Node {
   type: "heading";
   depth: number;
@@ -27,6 +29,7 @@ export default defineConfig({
     }),
     react(),
     sitemap(),
+    playformInline(),
     playformCompress(),
   ],
   image: {
