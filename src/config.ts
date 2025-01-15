@@ -5,7 +5,7 @@ export const SITE: ISite = {
   website: "https://pedram.blog/",
   author: "Pedram Taheri",
   profile: "https://pedram.blog/",
-  desc: "Pedram's blog: Thoughts on Building with Software",
+  desc: "Thoughts on Building with Software",
   title: "Pedram's Blog",
   lightAndDarkMode: true,
   postPerIndex: 4,
