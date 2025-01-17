@@ -50,6 +50,9 @@ export default defineConfig({
     },
   },
   vite: {
+    build: {
+      assetsInlineLimit: 65536,
+    },
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
     },
