@@ -5,14 +5,9 @@ import { defineConfig } from "astro/config";
 import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import { remarkReadingTime } from "./src/utils/getPostsWithRT";
-
 import { SITE } from "./src/config";
-
 import type { Node } from "unist";
-
 import playformCompress from "@playform/compress";
-
-import playformInline from "@playform/inline";
 
 interface IHeadingNode extends Node {
   type: "heading";
@@ -29,7 +24,6 @@ export default defineConfig({
     }),
     react(),
     sitemap(),
-    playformInline(),
     playformCompress(),
   ],
   image: {
