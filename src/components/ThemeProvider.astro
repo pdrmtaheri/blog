@@ -1,0 +1,53 @@
+<script is:inline>
+  function getPreferTheme() {
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme) return currentTheme;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+
+  function setPreference(themeValue) {
+    localStorage.setItem("theme", themeValue);
+    reflectPreference(themeValue);
+  }
+
+  function reflectPreference(themeValue) {
+    document.firstElementChild.setAttribute("data-theme", themeValue);
+
+    document.querySelector("#theme-btn")?.setAttribute("aria-label", themeValue);
+    document.querySelector("#theme-btn-desktop")?.setAttribute("aria-label", themeValue);
+
+    const body = document.body;
+
+    if (body) {
+      const computedStyles = window.getComputedStyle(body);
+      const bgColor = computedStyles.backgroundColor;
+      document.querySelector("meta[name='theme-color']")?.setAttribute("content", bgColor);
+    }
+  }
+
+  reflectPreference(getPreferTheme());
+
+  window.onload = () => {
+    function setThemeFeature() {
+      reflectPreference(getPreferTheme());
+
+      document.querySelector("#theme-btn")?.addEventListener("click", () => {
+        setPreference(getPreferTheme() === "light" ? "dark" : "light");
+      });
+
+      document.querySelector("#theme-btn-desktop")?.addEventListener("click", () => {
+        setPreference(getPreferTheme() === "light" ? "dark" : "light");
+      });
+    }
+
+    setThemeFeature();
+
+    document.addEventListener("astro:after-swap", setThemeFeature);
+  };
+
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", ({ matches: isDark }) => {
+      setPreference(isDark ? "dark" : "light");
+    });
+</script>

@@ -4,6 +4,7 @@ import "@styles/base.css";
 import { ClientRouter } from "astro:transitions";
 
 import PostHog from "../components/PostHog.astro";
+import ThemeProvider from "@components/ThemeProvider.astro";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -107,7 +108,7 @@ const structuredData = {
     <PostHog />
     <ClientRouter />
 
-    <script data-cfasync="false" is:inline src="/toggle-theme.js" async></script>
+    <ThemeProvider />
   </head>
   <body>
     <slot />
