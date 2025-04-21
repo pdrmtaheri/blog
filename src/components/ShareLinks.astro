@@ -39,12 +39,16 @@ const shareLinks = [
 ] as const;
 ---
 
-<div class={"social-icons"}>
+<div class="social-icons flex flex-col flex-wrap items-center justify-center gap-1 sm:items-start">
   <span class="italic">Share this post on:</span>
   <div class="text-center">
     {
       shareLinks.map((social) => (
-        <LinkButton href={`${social.href + URL}`} className="link-button" title={social.linkTitle}>
+        <LinkButton
+          href={`${social.href + URL}`}
+          className={"link-button scale-90 p-2 hover:rotate-6 sm:p-1"}
+          title={social.linkTitle}
+        >
           <Fragment set:html={socialIcons[social.name]} />
           <span class="sr-only">{social.linkTitle}</span>
         </LinkButton>
@@ -52,12 +56,3 @@ const shareLinks = [
     }
   </div>
 </div>
-
-<style>
-  .social-icons {
-    @apply flex flex-col flex-wrap items-center justify-center gap-1 sm:items-start;
-  }
-  .link-button {
-    @apply scale-90 p-2 hover:rotate-6 sm:p-1;
-  }
-</style>

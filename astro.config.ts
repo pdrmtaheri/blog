@@ -1,6 +1,5 @@
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
@@ -8,6 +7,8 @@ import { remarkReadingTime } from "./src/utils/getPostsWithRT";
 import { SITE } from "./src/config";
 import type { Node } from "unist";
 import playformCompress from "@playform/compress";
+
+import tailwindcss from "@tailwindcss/vite";
 
 interface IHeadingNode extends Node {
   type: "heading";
@@ -18,17 +19,8 @@ interface IHeadingNode extends Node {
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
-  integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
-    react(),
-    sitemap(),
-    playformCompress(),
-  ],
-  image: {
-    experimentalLayout: "responsive",
-  },
+  integrations: [react(), sitemap(), playformCompress()],
+  image: { experimentalLayout: "responsive" },
   markdown: {
     remarkPlugins: [
       remarkToc,
@@ -44,24 +36,15 @@ export default defineConfig({
         },
       ],
     ],
-    shikiConfig: {
-      theme: "one-dark-pro",
-      wrap: true,
-    },
+    shikiConfig: { theme: "one-dark-pro", wrap: true },
   },
   vite: {
-    build: {
-      assetsInlineLimit: 65536,
-    },
-    optimizeDeps: {
-      exclude: ["@resvg/resvg-js"],
-    },
+    build: { assetsInlineLimit: 65536 },
+
+    optimizeDeps: { exclude: ["@resvg/resvg-js"] },
+
+    plugins: [tailwindcss()],
   },
-  experimental: {
-    responsiveImages: true,
-  },
-  prefetch: {
-    prefetchAll: true,
-    defaultStrategy: "viewport",
-  },
+  experimental: { responsiveImages: true },
+  prefetch: { prefetchAll: true, defaultStrategy: "viewport" },
 });
