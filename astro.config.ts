@@ -27,7 +27,7 @@ export default defineConfig({
     playformCompress(),
   ],
   image: {
-    experimentalLayout: "responsive",
+    experimentalLayout: "constrained",
   },
   markdown: {
     remarkPlugins: [
