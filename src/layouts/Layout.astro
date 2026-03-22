@@ -12,6 +12,7 @@ interface Props {
 		publishedTime: string;
 		tags: string[];
 	};
+	extraJsonLd?: Record<string, unknown>[];
 }
 
 const {
@@ -19,6 +20,7 @@ const {
 	description = SITE.description,
 	ogImage = '/og-default.png',
 	article,
+	extraJsonLd,
 } = Astro.props;
 
 const siteUrl = Astro.site!.origin;
@@ -37,6 +39,8 @@ const jsonLd: Record<string, unknown>[] = [
 		inLanguage: 'en',
 	},
 ];
+
+if (extraJsonLd) jsonLd.push(...extraJsonLd);
 
 if (article) {
 	const headline = title.replace(` — ${SITE.title}`, '');
@@ -137,6 +141,8 @@ if (article) {
 	</body>
 </html>
 
+<!-- Compact header: gradually shrinks nav padding on scroll.
+     Requires id="compact-sentinel" (articles/[...slug].astro) and class="site-header" (Header compact prop). -->
 <script>
 	let controller: AbortController | null = null;
 
@@ -158,19 +164,10 @@ if (article) {
 		const transitionDistance = range * 3;
 
 		window.addEventListener('scroll', () => {
-			const scrollY = window.scrollY;
-			if (scrollY <= 0) {
-				nav.style.paddingTop = `${maxPad}px`;
-				nav.style.paddingBottom = `${maxPad}px`;
-			} else if (scrollY >= transitionDistance) {
-				nav.style.paddingTop = `${minPad}px`;
-				nav.style.paddingBottom = `${minPad}px`;
-			} else {
-				const progress = scrollY / transitionDistance;
-				const pad = maxPad - (range * progress);
-				nav.style.paddingTop = `${pad}px`;
-				nav.style.paddingBottom = `${pad}px`;
-			}
+			const progress = Math.min(Math.max(window.scrollY / transitionDistance, 0), 1);
+			const pad = `${maxPad - range * progress}px`;
+			nav.style.paddingTop = pad;
+			nav.style.paddingBottom = pad;
 		}, { passive: true, signal });
 	}
 

@@ -6,6 +6,7 @@ let fontCache: Promise<ArrayBuffer> | null = null;
 
 function getNewsreaderFont(): Promise<ArrayBuffer> {
 	if (!fontCache) {
+		// Google Fonts returns woff2 (smaller, satori-compatible) only for modern browser User-Agents
 		fontCache = fetch(
 			'https://fonts.googleapis.com/css2?family=Newsreader:wght@600&display=swap',
 			{ headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)' } }
@@ -31,7 +32,7 @@ export async function renderOgImage(node: JSXNode): Promise<Response> {
 				name: 'Newsreader',
 				data: fontBuffer,
 				weight: 600,
-				style: 'normal' as const,
+				style: 'normal',
 			},
 		],
 	});

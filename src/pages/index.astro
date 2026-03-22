@@ -6,8 +6,6 @@ import { getSortedArticles } from '../utils/articles';
 
 const articles = await getSortedArticles();
 
-const grouped = Map.groupBy(articles, (a) => a.data.date.getFullYear());
-
 function formatDate(date: Date) {
 	return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
 }
@@ -21,25 +19,18 @@ function formatDate(date: Date) {
 			Essays
 		</h1>
 
-		<div class="space-y-16">
-			{[...grouped.entries()].map(([year, items], i) => (
-				<>
-					{i > 0 && <hr class="border-0 h-px w-12 bg-outline-variant/30" />}
-					<div class="flex flex-col space-y-12">
-						{items.map((article) => (
-							<article class="group">
-								<a href={`/articles/${article.id}`} class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-12">
-									<span class="font-label text-outline text-xs tracking-widest uppercase md:w-24 shrink-0 transition-colors group-hover:text-primary-fixed-dim">
-										{formatDate(article.data.date)}
-									</span>
-									<h2 class="font-headline text-2xl md:text-3xl text-on-surface-variant transition-all duration-300 group-hover:text-on-surface group-hover:translate-x-1" transition:name={`article-title-${article.id}`}>
-										{article.data.title}
-									</h2>
-								</a>
-							</article>
-						))}
-					</div>
-				</>
+		<div class="flex flex-col space-y-12">
+			{articles.map((article) => (
+				<article class="group">
+					<a href={`/articles/${article.id}`} class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-12">
+						<span class="font-label text-outline text-xs tracking-widest uppercase md:w-24 shrink-0 transition-colors group-hover:text-primary-fixed-dim">
+							{formatDate(article.data.date)}
+						</span>
+						<h2 class="font-headline text-2xl md:text-3xl text-on-surface-variant transition-all duration-300 group-hover:text-on-surface group-hover:translate-x-1" transition:name={`article-title-${article.id}`}>
+							{article.data.title}
+						</h2>
+					</a>
+				</article>
 			))}
 		</div>
 

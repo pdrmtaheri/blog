@@ -22,7 +22,7 @@
   --text-2xs--line-height: 1rem;
 }
 
-/* Light mode (default) */
+/* Light mode values */
 :root {
   color-scheme: light dark;
   --surface: #fcfaf9;
@@ -38,7 +38,7 @@
   --accent: #a04100;
 }
 
-/* Dark mode */
+/* Dark mode values */
 @media (prefers-color-scheme: dark) {
   :root {
     --surface: #131313;

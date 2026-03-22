@@ -2,9 +2,8 @@ import type { APIRoute } from 'astro';
 import { SITE } from '../config';
 import { getSortedArticles } from '../utils/articles';
 
-export const GET: APIRoute = async ({ site: siteUrl }) => {
+export const GET: APIRoute = async ({ site }) => {
 	const articles = await getSortedArticles();
-	const site = siteUrl!;
 
 	const lines = [
 		`# ${SITE.title}`,

@@ -4,8 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE } from '../config';
 
-const aboutFile = await import('../content/about.md');
-const Content = aboutFile.Content;
+const { Content } = await import('../content/about.md');
 
 const siteUrl = Astro.site!.origin;
 const personJsonLd = [
@@ -36,7 +35,7 @@ const personJsonLd = [
 ];
 ---
 
-<Layout title="About — Pedram's Blog" description="Pedram Taheri — Director of Engineering at Offerland with 8+ years in software engineering, team leadership, and system design.">
+<Layout title="About — Pedram's Blog" description="Pedram Taheri — Director of Engineering at Offerland with 8+ years in software engineering, team leadership, and system design." extraJsonLd={personJsonLd}>
 	<Header activeNav="about" />
 
 	<main class="pt-28 md:pt-32 pb-24 px-6 max-w-4xl mx-auto">
@@ -50,6 +49,4 @@ const personJsonLd = [
 	</main>
 
 	<Footer />
-
-	<script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
 </Layout>

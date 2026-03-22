@@ -4,7 +4,6 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import compress from '@playform/compress';
 
-// https://astro.build/config
 export default defineConfig({
   site: 'https://pedram.blog',
   integrations: [sitemap(), compress()],
@@ -16,7 +15,7 @@ export default defineConfig({
       provider: fontProviders.google(),
       name: 'Newsreader',
       cssVariable: '--font-newsreader',
-      weights: [200, 300, 400, 500, 600, 700, 800],
+      weights: [400, 500, 600],
       styles: ['normal', 'italic'],
       subsets: ['latin'],
       fallbacks: ['serif'],
@@ -25,8 +24,8 @@ export default defineConfig({
       provider: fontProviders.google(),
       name: 'JetBrains Mono',
       cssVariable: '--font-jetbrains-mono',
-      weights: [100, 200, 300, 400, 500, 600, 700, 800],
-      styles: ['normal', 'italic'],
+      weights: [400],
+      styles: ['normal'],
       subsets: ['latin'],
       fallbacks: ['monospace'],
     },

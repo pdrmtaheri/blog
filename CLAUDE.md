@@ -29,7 +29,7 @@ No lint or test commands configured.
 ### Key directories
 
 - `src/pages/` — file-based routes (index, about, articles/[...slug], RSS, robots.txt, OG images)
-- `src/layouts/` — `Layout.astro` — HTML shell with SEO meta tags, OG/Twitter cards, theme toggle, scroll header scripts
+- `src/layouts/` — `Layout.astro` — HTML shell with SEO meta tags, OG/Twitter cards, scroll-responsive header padding script
 - `src/components/` — `Header.astro` (nav with activeNav/compact/progressBar props), `Footer.astro`
 - `src/content/articles/` — markdown blog posts (content collection with zod schema)
 - `src/content/about.md` — about page content
@@ -45,7 +45,7 @@ Articles use `src/content.config.ts` with a glob loader. Schema: `title`, `date`
 
 ### Theming
 
-Dark/light mode via `.dark` class on `<html>`. CSS custom properties in `global.css` switch values per mode. Theme preference persisted to localStorage. Inline script in `<head>` prevents flash.
+Dark/light mode follows system preference via `@media (prefers-color-scheme: dark)` in `global.css`. CSS custom properties define color tokens per mode. Tailwind `@custom-variant` also supports a `.dark` class override. No manual theme toggle or localStorage persistence.
 
 ### Config
 
