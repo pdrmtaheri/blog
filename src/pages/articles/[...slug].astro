@@ -3,6 +3,7 @@ import { render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import { SITE } from '../../config';
 import { getArticleStaticPaths } from '../../utils/articles';
 
 export const getStaticPaths = getArticleStaticPaths;
@@ -19,7 +20,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
 ---
 
 <Layout
-	title={`${title} — Pedram's Blog`}
+	title={`${title} — ${SITE.title}`}
 	description={description}
 	ogImage={`/og/${article.id}.png`}
 	article={{ publishedTime: date.toISOString(), tags }}

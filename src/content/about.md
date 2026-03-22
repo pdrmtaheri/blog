@@ -26,3 +26,6 @@ Additionally, I dabble in content creation as I work on sharing my experiences a
 ## Let's Connect
 
 I'm passionate about technology, team building, and making a meaningful impact through my work. Whether you want to talk about tech, leadership, or absurdism, feel free to reach out!
+
+- [LinkedIn](https://www.linkedin.com/in/pdrmtaheri)
+- [GitHub](https://github.com/pdrmtaheri)

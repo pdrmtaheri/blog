@@ -2,6 +2,14 @@ export const SITE = {
 	title: "Pedram's Blog",
 	description: 'Thoughts on building software, leading teams, and the human side of engineering.',
 	author: 'Pedram Taheri',
+	social: {
+		linkedin: 'https://www.linkedin.com/in/pdrmtaheri',
+		github: 'https://github.com/pdrmtaheri',
+	},
+	authorMeta: {
+		jobTitle: 'Director of Engineering',
+		worksFor: 'Offerland',
+	},
 };
 
 export const COLORS = {

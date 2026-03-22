@@ -2,12 +2,41 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { SITE } from '../config';
 
 const aboutFile = await import('../content/about.md');
 const Content = aboutFile.Content;
+
+const siteUrl = Astro.site!.origin;
+const personJsonLd = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'ProfilePage',
+		'@id': `${siteUrl}/about`,
+		name: `About — ${SITE.title}`,
+		url: `${siteUrl}/about`,
+		mainEntity: { '@id': `${siteUrl}/#author` },
+		isPartOf: { '@id': `${siteUrl}/#website` },
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'Person',
+		'@id': `${siteUrl}/#author`,
+		name: SITE.author,
+		url: `${siteUrl}/about`,
+		jobTitle: SITE.authorMeta.jobTitle,
+		worksFor: {
+			'@type': 'Organization',
+			name: SITE.authorMeta.worksFor,
+		},
+		description: 'Director of Engineering with 8+ years of experience in software engineering, team leadership, and system design.',
+		knowsAbout: ['Software Engineering', 'Engineering Leadership', 'System Design', 'Python', 'Golang'],
+		sameAs: Object.values(SITE.social),
+	},
+];
 ---
 
-<Layout title="About — Pedram's Blog">
+<Layout title="About — Pedram's Blog" description="Pedram Taheri — Director of Engineering at Offerland with 8+ years in software engineering, team leadership, and system design.">
 	<Header activeNav="about" />
 
 	<main class="pt-28 md:pt-32 pb-24 px-6 max-w-4xl mx-auto">
@@ -21,4 +50,6 @@ const Content = aboutFile.Content;
 	</main>
 
 	<Footer />
+
+	<script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
 </Layout>
