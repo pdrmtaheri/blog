@@ -1,3 +1,4 @@
+import type { JSXNode } from 'satori/jsx';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 
@@ -19,7 +20,7 @@ function getNewsreaderFont(): Promise<ArrayBuffer> {
 	return fontCache;
 }
 
-export async function renderOgImage(node: Record<string, unknown>): Promise<Response> {
+export async function renderOgImage(node: JSXNode): Promise<Response> {
 	const fontBuffer = await getNewsreaderFont();
 
 	const svg = await satori(node, {

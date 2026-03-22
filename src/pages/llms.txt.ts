@@ -1,10 +1,10 @@
-import type { APIContext } from 'astro';
+import type { APIRoute } from 'astro';
 import { SITE } from '../config';
 import { getSortedArticles } from '../utils/articles';
 
-export async function GET(context: APIContext) {
+export const GET: APIRoute = async ({ site: siteUrl }) => {
 	const articles = await getSortedArticles();
-	const site = context.site!;
+	const site = siteUrl!;
 
 	const lines = [
 		`# ${SITE.title}`,

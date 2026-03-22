@@ -1,4 +1,6 @@
 ---
+import { SITE } from '../config';
+
 interface Props {
 	activeNav: 'essays' | 'about';
 	compact?: boolean;
@@ -18,7 +20,7 @@ const inactiveClass = 'text-outline border-transparent hover:text-on-surface';
 	)}
 	<nav class="max-w-4xl mx-auto flex justify-between items-center py-6 md:py-8 px-6">
 		<a href="/" class="font-headline font-semibold text-xl tracking-tighter text-on-surface">
-			Pedram's Blog
+			{SITE.title}
 		</a>
 		<div class="flex items-center gap-8">
 			<a href="/" class:list={[navBase, activeNav === 'essays' ? activeClass : inactiveClass]}>

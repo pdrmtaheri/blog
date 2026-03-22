@@ -1,3 +1,14 @@
+interface SiteConfig {
+	title: string;
+	description: string;
+	author: string;
+	social: Record<string, string>;
+	authorMeta: {
+		jobTitle: string;
+		worksFor: string;
+	};
+}
+
 export const SITE = {
 	title: "Pedram's Blog",
 	description: 'Thoughts on building software, leading teams, and the human side of engineering.',
@@ -10,11 +21,11 @@ export const SITE = {
 		jobTitle: 'Director of Engineering',
 		worksFor: 'Offerland',
 	},
-};
+} as const satisfies SiteConfig;
 
 export const COLORS = {
 	surface: '#131313',
 	onSurface: '#e5e2e1',
 	accent: '#ff6b00',
 	outline: '#52525b',
-};
+} as const satisfies Record<string, `#${string}`>;
