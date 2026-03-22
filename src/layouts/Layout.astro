@@ -28,6 +28,14 @@ const ogImageUrl = new URL(ogImage, Astro.site);
 <!doctype html>
 <html lang="en">
 	<head>
+		<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-BNX2YYWHV5"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-BNX2YYWHV5');
+		</script>
+
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
