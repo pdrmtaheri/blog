@@ -12,7 +12,7 @@ const activeClass = 'text-accent font-bold border-accent';
 const inactiveClass = 'text-outline border-transparent hover:text-on-surface';
 ---
 
-<header transition:animate="none" class:list={['fixed top-0 w-full z-50 bg-surface', { 'site-header': compact }]}>
+<header transition:animate="none" class:list={['fixed top-0 w-full z-50 bg-surface backface-hidden', { 'site-header': compact }]}>
 	{progressBar && (
 		<div id="reading-progress" class="absolute bottom-0 left-0 h-0.5 bg-accent" style="width: 0%"></div>
 	)}
