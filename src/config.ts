@@ -1,6 +1,6 @@
 export const SITE = {
 	title: "Pedram's Blog",
-	description: 'Essays on engineering, leadership, and human systems.',
+	description: 'Thoughts on building software, leading teams, and the human side of engineering.',
 	author: 'Pedram Taheri',
 };
 
