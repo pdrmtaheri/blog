@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const aboutFile = await import('../content/about.md');
+const Content = aboutFile.Content;
+---
+
+<Layout title="About — Pedram's Blog">
+	<Header activeNav="about" />
+
+	<main class="pt-28 md:pt-32 pb-24 px-6 max-w-4xl mx-auto">
+		<h1 class="mb-16 md:mb-24 font-headline font-semibold text-5xl md:text-6xl tracking-tight text-on-surface leading-none">
+			About
+		</h1>
+
+		<article class="prose">
+			<Content />
+		</article>
+	</main>
+
+	<Footer />
+</Layout>
