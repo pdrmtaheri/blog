@@ -1,147 +1,52 @@
 ---
-import Card from "@components/Card.astro";
-import Footer from "@components/Footer.astro";
-import Header from "@components/Header.astro";
-import Hr from "@components/Hr.astro";
-import LinkButton from "@components/LinkButton.astro";
-import Socials from "@components/Socials.astro";
-import { SITE, SOCIALS } from "@config";
-import Layout from "@layouts/Layout.astro";
-import getSortedPosts from "@utils/getSortedPosts";
-import { getCollection } from "astro:content";
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getSortedArticles } from '../utils/articles';
 
-const posts = await getCollection("blog");
+const articles = await getSortedArticles();
 
-const sortedPosts = await getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+const grouped = Map.groupBy(articles, (a) => a.data.date.getFullYear());
 
-const socialCount = SOCIALS.filter((social) => social.active).length;
+function formatDate(date: Date) {
+	return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+}
 ---
 
-<Layout>
-  <Header />
-  <main id="main-content">
-    <section id="hero">
-      <h1>Hello, I'm Pedram</h1>
-      <a target="_blank" href="/rss.xml" class="rss-link" aria-label="rss feed" title="RSS Feed">
-        <svg xmlns="http://www.w3.org/2000/svg" class="rss-icon"
-          ><path d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z"></path><path
-            d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z"></path><circle
-            cx="6"
-            cy="18"
-            r="2"></circle>
-        </svg>
-        <span class="sr-only">RSS Feed</span>
-      </a>
+<Layout title="Essays — Pedram's Blog">
+	<Header activeNav="essays" />
 
-      <p>
-        This is my blog. I write about software engineering, engineering management, and other
-        things I'm interested in.
-      </p>
-      <p>
-        Read the blog posts or check out my
-        <LinkButton
-          className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
-          href="/about"
-        >
-          about page</LinkButton
-        > to learn more about me.
-      </p>
-      {
-        // only display if at least one social link is enabled
-        socialCount > 0 && (
-          <div class="social-wrapper">
-            <div class="social-links">Social Links:</div>
-            <Socials />
-          </div>
-        )
-      }
-    </section>
+	<main class="pt-28 md:pt-32 pb-24 px-6 max-w-4xl mx-auto min-h-screen">
+		<h1 class="mb-16 md:mb-24 font-headline font-semibold text-5xl md:text-6xl tracking-tight text-on-surface leading-none">
+			Essays
+		</h1>
 
-    <Hr />
+		<div class="space-y-16">
+			{[...grouped.entries()].map(([year, items], i) => (
+				<>
+					{i > 0 && <hr class="border-0 h-px w-12 bg-outline-variant/30" />}
+					<div class="flex flex-col space-y-12">
+						{items.map((article) => (
+							<article class="group">
+								<a href={`/articles/${article.id}`} class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-12">
+									<span class="font-label text-outline text-xs tracking-widest uppercase md:w-24 shrink-0 transition-colors group-hover:text-primary-fixed-dim">
+										{formatDate(article.data.date)}
+									</span>
+									<h2 class="font-headline text-2xl md:text-3xl text-on-surface-variant transition-all duration-300 group-hover:text-on-surface group-hover:translate-x-1" transition:name={`article-title-${article.id}`}>
+										{article.data.title}
+									</h2>
+								</a>
+							</article>
+						))}
+					</div>
+				</>
+			))}
+		</div>
 
-    {
-      featuredPosts.length > 0 && (
-        <>
-          <section id="featured">
-            <h2>Featured</h2>
-            <ul>
-              {featuredPosts.map(({ data, slug }) => (
-                <Card href={`/posts/${slug}/`} frontmatter={data} secHeading={false} />
-              ))}
-            </ul>
-          </section>
-          {recentPosts.length > 0 && <Hr />}
-        </>
-      )
-    }
+		<p class="mt-24 md:mt-32 text-center font-label text-2xs tracking-[0.5em] text-outline-variant uppercase">
+			End of Index
+		</p>
+	</main>
 
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts">
-          <h2>Recent Posts</h2>
-          <ul>
-            {recentPosts.map(
-              ({ data, slug }, index) =>
-                index < SITE.postPerIndex && (
-                  <Card href={`/posts/${slug}/`} frontmatter={data} secHeading={false} />
-                )
-            )}
-          </ul>
-        </section>
-      )
-    }
-
-    <div class="all-posts-btn-wrapper">
-      <LinkButton href="/posts/">
-        All Posts
-        <svg xmlns="http://www.w3.org/2000/svg"
-          ><path
-            d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
-          ></path>
-        </svg>
-      </LinkButton>
-    </div>
-  </main>
-
-  <Footer />
+	<Footer />
 </Layout>
-
-<style>
-  /* ===== Hero Section ===== */
-  #hero {
-    @apply pb-6 pt-8;
-  }
-  #hero h1 {
-    @apply my-4 inline-block text-3xl font-bold sm:my-8 sm:text-5xl;
-  }
-  #hero .rss-link {
-    @apply mb-6;
-  }
-  #hero .rss-icon {
-    @apply mb-2 h-6 w-6 scale-110 fill-skin-accent sm:mb-3 sm:scale-125;
-  }
-  #hero p {
-    @apply my-2;
-  }
-  .social-wrapper {
-    @apply mt-4 flex flex-col sm:flex-row sm:items-center;
-  }
-  .social-links {
-    @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
-  }
-
-  /* ===== Featured & Recent Posts Sections ===== */
-  #featured,
-  #recent-posts {
-    @apply pb-6 pt-12;
-  }
-  #featured h2,
-  #recent-posts h2 {
-    @apply text-2xl font-semibold tracking-wide;
-  }
-  .all-posts-btn-wrapper {
-    @apply my-8 text-center;
-  }
-</style>
