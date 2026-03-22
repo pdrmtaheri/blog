@@ -23,7 +23,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
 	day: 'numeric',
 });
 
-const articleUrl = new URL(`/articles/${article.id}`, Astro.site).href;
+const articleUrl = new URL(`/articles/${article.id}/`, Astro.site).href;
 const encodedUrl = encodeURIComponent(articleUrl);
 const encodedTitle = encodeURIComponent(`${title} — ${SITE.title}`);
 ---

@@ -6,6 +6,7 @@ import compress from '@playform/compress';
 
 export default defineConfig({
   site: 'https://pedram.blog',
+  trailingSlash: 'always',
   integrations: [sitemap(), compress()],
   vite: {
     plugins: [tailwindcss()]

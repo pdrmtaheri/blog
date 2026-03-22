@@ -22,7 +22,7 @@ function formatDate(date: Date) {
 		<div class="flex flex-col space-y-12">
 			{articles.map((article) => (
 				<article class="group">
-					<a href={`/articles/${article.id}`} class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-12">
+					<a href={`/articles/${article.id}/`} class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-12">
 						<span class="font-label text-outline text-xs tracking-widest uppercase md:w-24 shrink-0 transition-colors group-hover:text-primary-fixed-dim">
 							{formatDate(article.data.date)}
 						</span>

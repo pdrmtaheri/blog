@@ -16,7 +16,7 @@ export const GET: APIRoute = async ({ site }) => {
 		'',
 		'## Articles',
 		...articles.map(
-			(a) => `- [${a.data.title}](${new URL(`/articles/${a.id}`, site)}): ${a.data.description}`,
+			(a) => `- [${a.data.title}](${new URL(`/articles/${a.id}/`, site)}): ${a.data.description}`,
 		),
 		'',
 		'## Optional',
