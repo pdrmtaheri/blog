@@ -2,7 +2,7 @@
 title: "Coding is Now Gambling"
 date: 2026-03-23
 tags: ["ai"]
-description: How AI coding agents have gamified coding into gambling and what we can do about it
+description: How coding agents have gamified coding into gambling and what we can do about it
 ---
 
 ## The First Taste
