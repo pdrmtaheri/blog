@@ -12,7 +12,7 @@ export const GET: APIRoute = async ({ site }) => {
 		`> By ${SITE.author}, ${SITE.authorMeta.jobTitle} at ${SITE.authorMeta.worksFor}.`,
 		'',
 		'## Author',
-		`- [About ${SITE.author}](${new URL('/about', site)})`,
+		`- [About ${SITE.author}](${new URL('/about/', site)})`,
 		'',
 		'## Articles',
 		...articles.map(

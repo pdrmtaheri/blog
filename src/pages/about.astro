@@ -11,9 +11,9 @@ const personJsonLd = [
 	{
 		'@context': 'https://schema.org',
 		'@type': 'ProfilePage',
-		'@id': `${siteUrl}/about`,
+		'@id': `${siteUrl}/about/`,
 		name: `About — ${SITE.title}`,
-		url: `${siteUrl}/about`,
+		url: `${siteUrl}/about/`,
 		mainEntity: { '@id': `${siteUrl}/#author` },
 		isPartOf: { '@id': `${siteUrl}/#website` },
 	},
@@ -22,7 +22,7 @@ const personJsonLd = [
 		'@type': 'Person',
 		'@id': `${siteUrl}/#author`,
 		name: SITE.author,
-		url: `${siteUrl}/about`,
+		url: `${siteUrl}/about/`,
 		jobTitle: SITE.authorMeta.jobTitle,
 		worksFor: {
 			'@type': 'Organization',
