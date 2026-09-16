@@ -18,4 +18,6 @@ It is as if having an output verifier is a prerequisite for pulling these off.
 
 This is not new. The old software engineering wisdom has always been to do TDD. To set in stone how the software should behave. A robust test suite is a prerequisite for refactoring large projects successfully.
 
-With the advent of LLMs, there is no excuse to ship low-quality software anymore. Take the time you would have spent coding and invest it in your verification stack. And let LLMs do their thing. Refactoring is not the Herculean effort it used to be.
+While testing has a mature ecosystem, I believe static analyzers and linters still have a long way to go, and there is a lot to gain there. I hope to see more projects like [shadcn-ui/lint](https://github.com/shadcn-ui/lint) pop up.
+
+There is no excuse to ship low-quality software anymore. Take the time you would have spent coding and invest it in your verification stack. And let LLMs do their thing. Refactoring is not the Herculean effort it used to be.
