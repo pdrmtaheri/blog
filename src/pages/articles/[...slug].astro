@@ -46,7 +46,7 @@ const encodedTitle = encodeURIComponent(`${title} — ${SITE.title}`);
 					</>
 				))}
 			</div>
-			<h1 class="text-4xl md:text-6xl font-headline font-semibold text-on-surface leading-[1.1] tracking-tight mb-8" transition:name={`article-title-${article.id}`}>
+			<h1 class="text-4xl md:text-6xl font-headline font-semibold text-on-surface leading-[1.1] tracking-tight mb-8" style={`view-transition-name: article-title-${article.id}`}>
 				{title}
 			</h1>
 			<time datetime={date.toISOString()} class="font-label text-xs text-outline uppercase tracking-widest">
@@ -88,36 +88,26 @@ const encodedTitle = encodeURIComponent(`${title} — ${SITE.title}`);
 </Layout>
 
 <script>
-	let articleController: AbortController | null = null;
-
-	function setupArticlePage() {
-		articleController?.abort();
-		articleController = new AbortController();
-		const { signal } = articleController;
-
-		const bar = document.getElementById('reading-progress');
-		if (bar) {
-			window.addEventListener('scroll', () => {
-				const scrollTop = window.scrollY;
-				const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-				const progress = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0;
-				bar.style.width = `${progress}%`;
-			}, { passive: true, signal });
-		}
-
-		document.getElementById('share-copy')?.addEventListener('click', async () => {
-			const toast = document.getElementById('copy-toast');
-			if (!toast) return;
-			try {
-				await navigator.clipboard.writeText(window.location.href);
-				toast.textContent = 'Link copied';
-			} catch {
-				toast.textContent = 'Could not copy link';
-			}
-			toast.style.opacity = '1';
-			setTimeout(() => { toast.style.opacity = '0'; }, 2000);
-		}, { signal });
+	const bar = document.getElementById('reading-progress');
+	if (bar) {
+		window.addEventListener('scroll', () => {
+			const scrollTop = window.scrollY;
+			const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+			const progress = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0;
+			bar.style.width = `${progress}%`;
+		}, { passive: true });
 	}
 
-	document.addEventListener('astro:page-load', setupArticlePage);
+	document.getElementById('share-copy')?.addEventListener('click', async () => {
+		const toast = document.getElementById('copy-toast');
+		if (!toast) return;
+		try {
+			await navigator.clipboard.writeText(window.location.href);
+			toast.textContent = 'Link copied';
+		} catch {
+			toast.textContent = 'Could not copy link';
+		}
+		toast.style.opacity = '1';
+		setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+	});
 </script>
