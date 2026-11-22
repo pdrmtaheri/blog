@@ -10,11 +10,11 @@ interface Props {
 const { activeNav, compact = false, progressBar = false } = Astro.props;
 
 const navBase = 'font-label uppercase text-xs tracking-widest border-b-2 pb-1 transition-colors duration-200';
-const activeClass = 'text-accent font-bold border-accent';
+const activeClass = 'text-accent border-accent';
 const inactiveClass = 'text-outline border-transparent hover:text-on-surface';
 ---
 
-<header transition:animate="none" class="fixed top-0 w-full z-50 bg-surface backface-hidden" data-compact={compact || undefined}>
+<header class="fixed top-0 w-full z-50 bg-surface backface-hidden [view-transition-name:site-header]" data-compact={compact || undefined}>
 	{progressBar && (
 		<div id="reading-progress" class="absolute bottom-0 left-0 h-0.5 bg-accent" style="width: 0%"></div>
 	)}
@@ -34,16 +34,8 @@ const inactiveClass = 'text-outline border-transparent hover:text-on-surface';
 </header>
 
 <script>
-	let controller: AbortController | null = null;
-
-	function setup() {
-		controller?.abort();
-		controller = new AbortController();
-		const { signal } = controller;
-
-		const nav = document.querySelector<HTMLElement>('header[data-compact] nav');
-		if (!nav) return;
-
+	const nav = document.querySelector<HTMLElement>('header[data-compact] nav');
+	if (nav) {
 		const isMobile = window.matchMedia('(max-width: 767px)').matches;
 		const maxPad = isMobile ? 24 : 32;
 		const minPad = 8;
@@ -55,9 +47,6 @@ const inactiveClass = 'text-outline border-transparent hover:text-on-surface';
 			const pad = `${maxPad - range * progress}px`;
 			nav.style.paddingTop = pad;
 			nav.style.paddingBottom = pad;
-		}, { passive: true, signal });
+		}, { passive: true });
 	}
-
-	setup();
-	document.addEventListener('astro:after-swap', setup);
 </script>

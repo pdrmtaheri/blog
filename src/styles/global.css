@@ -74,6 +74,20 @@
   }
 }
 
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
+::view-transition-group(site-header) {
+  animation: none;
+}
+
 .prose {
   font-family: var(--font-headline);
   font-size: 1.125rem;
