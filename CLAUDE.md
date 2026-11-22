@@ -25,7 +25,7 @@ No lint or test commands configured.
 - **Styling**: Tailwind CSS v4 via `@tailwindcss/vite`, CSS custom properties for dark/light theming
 - **Routing**: file-based under `src/pages/`
 - **Fonts**: Astro 7 built-in Fonts API (self-hosted Newsreader + JetBrains Mono)
-- **Navigation**: Astro ClientRouter for client-side transitions with view transition animations
+- **Navigation**: native cross-document view transitions (`@view-transition` in `global.css`); speculation rules in `Layout.astro` prerender links on hover
 - **Deploy**: Cloudflare Pages (auto-deploy on push)
 
 ### Key directories
@@ -66,3 +66,5 @@ Dark/light mode follows system preference via `@media (prefers-color-scheme: dar
 - `@playform/compress` — build-time HTML/CSS/PNG/SVG compression
 - `satori` + `@resvg/resvg-js` — dynamic OG image generation per article
 - `sharp` — image optimization for content images
+- `src/integrations/prose-images.mjs` — post-build: sets markdown image `sizes` to the prose column and adds AVIF `<picture>` sources encoded from `src/assets/images/`
+- `src/integrations/trim-font-weights.mjs` — post-build: trims Newsreader's variable weight axis and content-hashes the result

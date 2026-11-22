@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap';
 import compress from '@playform/compress';
 import { readFileSync, readdirSync } from 'node:fs';
-import { proseImageSizes } from './src/integrations/prose-image-sizes.mjs';
+import { proseImages } from './src/integrations/prose-images.mjs';
 import { trimFontWeights } from './src/integrations/trim-font-weights.mjs';
 
 /**
@@ -69,7 +69,7 @@ export default defineConfig({
         return item;
       },
     }),
-    proseImageSizes(),
+    proseImages(),
     trimFontWeights(fonts),
     compress(),
   ],
