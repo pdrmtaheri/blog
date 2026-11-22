@@ -24,6 +24,9 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'always',
   },
+  image: {
+    layout: 'constrained',
+  },
   integrations: [
     sitemap({
       serialize(item) {

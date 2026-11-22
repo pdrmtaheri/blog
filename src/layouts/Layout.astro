@@ -105,8 +105,8 @@ if (article) {
 		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 		<link rel="manifest" href="/site.webmanifest" />
 
-		<Font cssVariable="--font-newsreader" />
-		<Font cssVariable="--font-jetbrains-mono" />
+		<Font cssVariable="--font-newsreader" preload={[{ style: 'normal' }]} />
+		<Font cssVariable="--font-jetbrains-mono" preload />
 
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
