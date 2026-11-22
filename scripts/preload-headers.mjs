@@ -1,7 +1,3 @@
-/**
- * Appends Link preload headers to dist/_headers for Cloudflare Early Hints.
- * Run after `astro build` so hashed filenames are available.
- */
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';

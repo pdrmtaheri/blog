@@ -6,7 +6,7 @@ import compress from '@playform/compress';
 import { readFileSync, readdirSync } from 'node:fs';
 
 /**
- * Parse article dates from frontmatter (avoids astro:content which isn't available in config)
+ * astro:content isn't available in config.
  * @type {Map<string, Date>}
  */
 const articleDates = new Map();
