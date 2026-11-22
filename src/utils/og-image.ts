@@ -1,13 +1,20 @@
-import type { JSXNode } from 'satori/jsx';
+import type { JSXElement } from 'satori/jsx';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 
 let fontCache: Promise<ArrayBuffer> | null = null;
 
+async function fetchOk(url: string, init?: RequestInit): Promise<Response> {
+	const res = await fetch(url, init);
+	if (!res.ok) throw new Error(`Font fetch failed: ${res.status} ${url}`);
+	return res;
+}
+
 function getNewsreaderFont(): Promise<ArrayBuffer> {
 	if (!fontCache) {
-		// Google Fonts returns woff2 (smaller, satori-compatible) only for modern browser User-Agents
-		fontCache = fetch(
+		// This User-Agent gets a single static TTF (600 weight). A Chrome UA would get woff2
+		// split into unicode-range subsets, and the first src may not be the latin one.
+		fontCache = fetchOk(
 			'https://fonts.googleapis.com/css2?family=Newsreader:wght@600&display=swap',
 			{ headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)' } }
 		)
@@ -15,13 +22,13 @@ function getNewsreaderFont(): Promise<ArrayBuffer> {
 			.then((css) => {
 				const match = css.match(/src:\s*url\(([^)]+)\)/);
 				if (!match) throw new Error('Could not find font URL in Google Fonts CSS');
-				return fetch(match[1]).then((r) => r.arrayBuffer());
+				return fetchOk(match[1]).then((r) => r.arrayBuffer());
 			});
 	}
 	return fontCache;
 }
 
-export async function renderOgImage(node: JSXNode): Promise<Response> {
+export async function renderOgImage(node: Omit<JSXElement, 'key'>): Promise<Response> {
 	const fontBuffer = await getNewsreaderFont();
 
 	const svg = await satori(node, {
@@ -39,7 +46,7 @@ export async function renderOgImage(node: JSXNode): Promise<Response> {
 
 	const png = new Resvg(svg).render().asPng();
 
-	return new Response(png, {
+	return new Response(new Uint8Array(png), {
 		headers: { 'Content-Type': 'image/png' },
 	});
 }

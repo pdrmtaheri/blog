@@ -1,6 +1,13 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(@media (prefers-color-scheme: dark), .dark *));
+@custom-variant dark {
+	@media (prefers-color-scheme: dark) {
+		@slot;
+	}
+	&:where(.dark, .dark *) {
+		@slot;
+	}
+}
 
 @theme inline {
   --color-surface: var(--surface);
