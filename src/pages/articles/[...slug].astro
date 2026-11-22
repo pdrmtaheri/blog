@@ -4,7 +4,7 @@ import { render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import { SITE } from '../../config';
+import { PROSE_COLUMN, SITE } from '../../config';
 import { getArticleStaticPaths } from '../../utils/articles';
 
 interface Props {
@@ -36,7 +36,7 @@ const encodedTitle = encodeURIComponent(`${title} — ${SITE.title}`);
 >
 	<Header activeNav="essays" compact progressBar />
 
-	<main class="pt-28 md:pt-32 pb-24 px-6 max-w-3xl mx-auto">
+	<main class="pt-28 md:pt-32 pb-24 mx-auto" style={`max-width: ${PROSE_COLUMN.maxWidth}px; padding-inline: ${PROSE_COLUMN.gutter}px`}>
 		<header class="mb-16">
 			<div class="flex items-center gap-3 mb-4">
 				{tags.map((tag, i) => (

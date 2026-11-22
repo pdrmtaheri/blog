@@ -12,6 +12,8 @@ export const SITE = {
 	},
 } as const;
 
+export const PROSE_COLUMN = { maxWidth: 768, gutter: 24 } as const;
+
 export const COLORS = {
 	surface: '#131313',
 	onSurface: '#e5e2e1',

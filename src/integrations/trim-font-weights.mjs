@@ -6,7 +6,7 @@ import subsetFont from 'subset-font';
 
 /**
  * Google serves variable fonts with the full weight axis (Newsreader: 200-800) even when
- * fewer weights are requested, so clamp each family's axis to its configured weights.
+ * fewer weights are requested.
  * @param {{ name: string; weights?: (number | string)[] }[]} fonts
  * @returns {import('astro').AstroIntegration}
  */

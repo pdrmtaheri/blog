@@ -2,14 +2,16 @@
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { PROSE_COLUMN } from '../config.ts';
 
 /**
  * Markdown images can't set `sizes`, so Astro emits 100vw and wide screens fetch the
- * largest file. Prose column: main max-w-3xl (768px) minus px-6 (48px).
+ * largest file.
  * @returns {import('astro').AstroIntegration}
  */
 export function proseImageSizes() {
-  const sizes = '(min-width: 768px) 720px, calc(100vw - 48px)';
+  const { maxWidth, gutter } = PROSE_COLUMN;
+  const sizes = `(min-width: ${maxWidth}px) ${maxWidth - 2 * gutter}px, calc(100vw - ${2 * gutter}px)`;
   return {
     name: 'prose-image-sizes',
     hooks: {
