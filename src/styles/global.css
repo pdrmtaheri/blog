@@ -1,6 +1,13 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(@media (prefers-color-scheme: dark), .dark *));
+@custom-variant dark {
+	@media (prefers-color-scheme: dark) {
+		@slot;
+	}
+	&:where(.dark, .dark *) {
+		@slot;
+	}
+}
 
 @theme inline {
   --color-surface: var(--surface);
@@ -22,7 +29,6 @@
   --text-2xs--line-height: 1rem;
 }
 
-/* Light mode values */
 :root {
   color-scheme: light dark;
   --surface: #fcfaf9;
@@ -38,7 +44,6 @@
   --accent: #a04100;
 }
 
-/* Dark mode values */
 @media (prefers-color-scheme: dark) {
   :root {
     --surface: #131313;
@@ -69,7 +74,6 @@
   }
 }
 
-/* Article prose styles */
 .prose {
   font-family: var(--font-headline);
   font-size: 1.125rem;

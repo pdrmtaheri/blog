@@ -140,37 +140,3 @@ if (article) {
 		<slot />
 	</body>
 </html>
-
-<!-- Compact header: gradually shrinks nav padding on scroll.
-     Requires id="compact-sentinel" (articles/[...slug].astro) and class="site-header" (Header compact prop). -->
-<script>
-	let controller: AbortController | null = null;
-
-	function setup() {
-		controller?.abort();
-		controller = new AbortController();
-		const { signal } = controller;
-
-		const sentinel = document.getElementById('compact-sentinel');
-		const header = document.querySelector('.site-header');
-		if (!header || !sentinel) return;
-		const nav = header.querySelector('nav');
-		if (!nav) return;
-
-		const isMobile = window.matchMedia('(max-width: 767px)').matches;
-		const maxPad = isMobile ? 24 : 32;
-		const minPad = 8;
-		const range = maxPad - minPad;
-		const transitionDistance = range * 3;
-
-		window.addEventListener('scroll', () => {
-			const progress = Math.min(Math.max(window.scrollY / transitionDistance, 0), 1);
-			const pad = `${maxPad - range * progress}px`;
-			nav.style.paddingTop = pad;
-			nav.style.paddingBottom = pad;
-		}, { passive: true, signal });
-	}
-
-	setup();
-	document.addEventListener('astro:after-swap', setup);
-</script>

@@ -13,6 +13,8 @@ Personal blog (pedram.blog) built with Astro 7. Dark/light themed editorial desi
 - `pnpm preview` — preview production build
 - `pnpm astro` — run Astro CLI (e.g. `pnpm astro add`, `pnpm astro check`)
 
+- `pnpm check` — type-check with `astro check` (needs TypeScript 6; `astro check` refuses TS 7)
+
 No lint or test commands configured.
 
 ## Architecture

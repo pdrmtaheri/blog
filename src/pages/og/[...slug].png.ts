@@ -18,6 +18,7 @@ export const GET: APIRoute = async ({ props }) => {
 				display: 'flex',
 				flexDirection: 'column',
 				justifyContent: 'flex-end',
+				boxSizing: 'border-box',
 				padding: '80px',
 				backgroundColor: COLORS.surface,
 				color: COLORS.onSurface,
