@@ -3,9 +3,9 @@ import { defineConfig, fontProviders } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap';
 import compress from '@playform/compress';
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { readFileSync, readdirSync } from 'node:fs';
+import { proseImageSizes } from './src/integrations/prose-image-sizes.mjs';
+import { trimFontWeights } from './src/integrations/trim-font-weights.mjs';
 
 /**
  * astro:content isn't available in config.
@@ -20,31 +20,27 @@ for (const file of readdirSync('./src/content/articles').filter((f) => f.endsWit
   articleDates.set(`https://pedram.blog/articles/${slug}/`, new Date(match[1].trim()));
 }
 
-/**
- * Markdown images can't set `sizes`, so Astro emits 100vw and wide screens fetch the
- * largest file. Prose column: main max-w-3xl (768px) minus px-6 (48px).
- * @returns {import('astro').AstroIntegration}
- */
-function proseImageSizes() {
-  const sizes = '(min-width: 768px) 720px, calc(100vw - 48px)';
-  return {
-    name: 'prose-image-sizes',
-    hooks: {
-      'astro:build:done': ({ dir }) => {
-        const root = fileURLToPath(dir);
-        for (const file of readdirSync(root, { recursive: true, encoding: 'utf-8' })) {
-          if (!file.endsWith('.html')) continue;
-          const path = join(root, file);
-          const html = readFileSync(path, 'utf-8');
-          const out = html.replace(/<img [^>]*data-astro-image="full-width"[^>]*>/g, (img) =>
-            img.replace('sizes="100vw"', `sizes="${sizes}"`)
-          );
-          if (out !== html) writeFileSync(path, out);
-        }
-      },
-    },
-  };
-}
+/** @satisfies {NonNullable<import('astro').AstroUserConfig['fonts']>} */
+const fonts = [
+  {
+    provider: fontProviders.google(),
+    name: 'Newsreader',
+    cssVariable: '--font-newsreader',
+    weights: [400, 500, 600],
+    styles: ['normal', 'italic'],
+    subsets: ['latin'],
+    fallbacks: ['serif'],
+  },
+  {
+    provider: fontProviders.google(),
+    name: 'JetBrains Mono',
+    cssVariable: '--font-jetbrains-mono',
+    weights: [400],
+    styles: ['normal'],
+    subsets: ['latin'],
+    fallbacks: ['monospace'],
+  },
+];
 
 export default defineConfig({
   site: 'https://pedram.blog',
@@ -74,29 +70,11 @@ export default defineConfig({
       },
     }),
     proseImageSizes(),
+    trimFontWeights(fonts),
     compress(),
   ],
   vite: {
     plugins: [tailwindcss()]
   },
-  fonts: [
-    {
-      provider: fontProviders.google(),
-      name: 'Newsreader',
-      cssVariable: '--font-newsreader',
-      weights: [400, 500, 600],
-      styles: ['normal', 'italic'],
-      subsets: ['latin'],
-      fallbacks: ['serif'],
-    },
-    {
-      provider: fontProviders.google(),
-      name: 'JetBrains Mono',
-      cssVariable: '--font-jetbrains-mono',
-      weights: [400],
-      styles: ['normal'],
-      subsets: ['latin'],
-      fallbacks: ['monospace'],
-    },
-  ],
+  fonts,
 });
