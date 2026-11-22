@@ -41,6 +41,15 @@ const jsonLd: Record<string, unknown>[] = [
 
 if (extraJsonLd) jsonLd.push(...extraJsonLd);
 
+const speculationRules = {
+	prerender: [
+		{
+			where: { and: [{ href_matches: '/*' }, { not: { href_matches: '/*.*' } }] },
+			eagerness: 'moderate',
+		},
+	],
+};
+
 if (article) {
 	const headline = title.replace(` — ${SITE.title}`, '');
 	jsonLd.push(
@@ -123,6 +132,7 @@ if (article) {
 		<meta name="twitter:image" content={ogImageUrl} />
 
 		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+		<script type="speculationrules" is:inline set:html={JSON.stringify(speculationRules)} />
 
 		<title>{title}</title>
 	</head>
