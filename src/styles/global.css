@@ -91,9 +91,15 @@
 .prose {
   font-family: var(--font-headline);
   font-size: 1.125rem;
-  line-height: 1.8;
+  line-height: 1.65;
   color: var(--on-surface-variant);
   max-width: none;
+}
+
+@media (min-width: 768px) {
+  .prose {
+    font-size: 1.25rem;
+  }
 }
 
 .prose p {
